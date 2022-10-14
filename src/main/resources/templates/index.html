@@ -87,11 +87,11 @@
                 type: 'get',
                 success: function (res) {
                     layer.close(loadStart);
-                    console.log(res.islogin);
-                    if (res.islogin === 'yes'){
+                    console.log(res.isLogin);
+                    if (res.isLogin === '1'){
                         //登陆成功显示列表
                         document.getElementById('tableBox').style.display = 'block';
-                    } else if (res.islogin === 'no'){
+                    } else if (res.isLogin === '0'){
                         //未登录显示登录页面
                         document.getElementById('loginPageID').style.display = 'block';
                         //登陆成功加载背景图片
@@ -161,15 +161,15 @@
                 type: 'post',
                 data: {'name': data.field.username, 'password': data.field.password},
                 success: function (res) {
-                    // if (res.state === '1'){
-                    //     document.getElementById('tableBox').style.display = 'block';
-                    // } else if(res.state === '0'){
-                    // } else  {
+                     if (res.state === '1'){
+                         document.getElementById('tableBox').style.display = 'block';
+                     } else if(res.state === '0'){
+                     } else  {
                         layer.open({
                             title: '系统维护中'
                             ,content: '请联系管理人员'
                         });
-                    // }
+                     }
                     // //登陆成功隐藏登陆页面
                     // document.getElementById('loginPageID').style.display = 'none';
                     // //登陆成功显示列表

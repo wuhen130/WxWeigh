@@ -87,7 +87,30 @@ public class TemplateControl {
         return jsonObject.parse(str);
 
     }
+    @ResponseBody
+    @GetMapping("/isLogin")
+    public Object isLogin(HttpServletRequest request) {
+        String username = null;
+        try {
+            Cookie[] cookies = request.getCookies();
+            if (cookies == null) {
+                String dataLogin = "no";
+                return dataLogin;
+            }else {
+                for (Cookie cookie : cookies){
+                    /*if (CookieConst.COOKIE_UGC.equals(cookie.getName())) {
+                        ugcInfo = cookie.getValue();
+                    }*/
+                    username = "小明";
+                }
+            }
 
+        }catch (Throwable e) {
+            System.out.printf("getUgcCookie error, [msg = {}]", e.getMessage(), e);
+        }
+
+        return username;
+    }
 
     @ResponseBody
     @PostMapping("/loginManage")

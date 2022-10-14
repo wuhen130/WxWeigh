@@ -100,7 +100,6 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
         String template_id = "Ds7-uA5A6Jdn_zr1Hk85RDOXjyOFSzv9qrao9aHNS14";
         message.setTemplateId(template_id);
 
-
         QueryWrapper wrapper = new QueryWrapper();
 
         wrapper.eq("name", name);

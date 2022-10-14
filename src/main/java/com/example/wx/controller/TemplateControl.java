@@ -97,7 +97,7 @@ public class TemplateControl {
         try {
             Cookie[] cookies = request.getCookies();
             if (cookies == null) {
-                dataLogin.put("islogin","0");
+                dataLogin.put("isLogin","0");
                 return dataLogin;
             }else {
                 for (Cookie cookie : cookies){

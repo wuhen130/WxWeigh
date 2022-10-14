@@ -120,7 +120,7 @@ public class TemplateControl {
     public Object loginMange(String name, String password, HttpServletResponse response) {
 
         Map loginManages = new HashMap<>();
-        if (name.equals("张三") || password.equals("111")){
+        if (name.equals("张三") && password.equals("111")){
             //发送cookie
             //创建cookie
             Cookie cookie = new Cookie("username","xxxjj");
@@ -134,6 +134,7 @@ public class TemplateControl {
         }
 
         return loginManages;
+
     }
 
     @ResponseBody

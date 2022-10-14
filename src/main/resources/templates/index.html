@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../static/css/layui.css" media="all">
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
-<body style="background-image: url(../static/image/background-image.jpeg);background-size: 100% 100%">
+<body style="background-image: url(../static/image/background-image.jpeg);">
 <div style="margin-top:10%;" id="loginPageID">
     <!-- 示例-970 -->
     <div class="layui-row layui-col-space15" style="margin: 0">
@@ -48,7 +48,7 @@
         <div class="layui-col-md1"></div>
         </div>
 </div>
-<div style="display: none">
+<div style="display: none" id="tableBox">
     <table class="layui-table" lay-data="{url:'wx/template/getUser', page:true, id:'idTest'}" style="display: none"
            lay-filter="demo">
         <thead>
@@ -126,10 +126,15 @@
     });
     layui.use('form', function () {
         var form = layui.form;
-
         //监听提交
         form.on('submit(formDemo)', function (data) {
             layer.msg(JSON.stringify(data.field));
+            //登陆成功隐藏登陆页面
+            document.getElementById('loginPageID').style.display='none';
+            //登陆成功显示列表
+            document.getElementById('tableBox').style.display='block';
+            //登陆成功背景图片改为孔
+            document.body.style.backgroundImage='';
             return false;
         });
     });

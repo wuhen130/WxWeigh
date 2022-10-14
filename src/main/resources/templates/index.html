@@ -79,9 +79,25 @@
 <script src="../static/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
 <script>
+    layui.use(function (){
+        console.log('=====================================================1');
+            layui.$.ajax({
+            url: '/wx/template/isLogin', //提交接口
+            type: 'get',
+            success: function (res) {
+                console.log('=====================================================2');
+                layer.msg(res.msg)
+                //回调
+            },
+            error: function (mas, textStatus, errorThrown) {
+                layer.msg("请求失败");
+            }
+        });
+        console.log('=====================================================2');
+        }
+    );
     layui.use('table', function () {
         var table = layui.table;
-
         //监听表格复选框选择
         table.on('checkbox(demo)', function (obj) {
             console.log(obj)

@@ -37,7 +37,7 @@
                         </div>
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button class="layui-btn" lay-submit lay-filter="formDemo">登陆</button>
+                                <button class="layui-btn" lay-submit lay-filter="loginBtn">登陆</button>
                                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                             </div>
                         </div>
@@ -46,7 +46,7 @@
             </div>
         </div>
         <div class="layui-col-md1"></div>
-        </div>
+    </div>
 </div>
 <div style="display: none" id="tableBox">
     <table class="layui-table" lay-data="{url:'wx/template/getUser', page:true, id:'idTest'}" style="display: none"
@@ -79,23 +79,28 @@
 <script src="../static/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
 <script>
-    layui.use(function (){
-        console.log('=====================================================1');
+
+    //判断是否登录
+    layui.use(function () {
             layui.$.ajax({
-            url: '/wx/template/isLogin', //提交接口
-            type: 'get',
-            success: function (res) {
-                console.log('=====================================================2');
-                layer.msg(res.msg)
-                //回调
-            },
-            error: function (mas, textStatus, errorThrown) {
-                layer.msg("请求失败");
-            }
-        });
-        console.log('=====================================================2');
+                url: '/wx/template/isLogin', //提交接口
+                type: 'get',
+                success: function (res) {
+                    // //登陆成功隐藏登陆页面
+                    // document.getElementById('loginPageID').style.display = 'none';
+                    // //登陆成功显示列表
+                    // document.getElementById('tableBox').style.display = 'block';
+                    // //登陆成功背景图片改为孔
+                    // document.body.style.backgroundImage = '';
+                },
+                error: function (mas, textStatus, errorThrown) {
+                    layer.msg("请求失败");
+                }
+            });
         }
     );
+
+    //列表布局页面
     layui.use('table', function () {
         var table = layui.table;
         //监听表格复选框选择
@@ -143,14 +148,25 @@
     layui.use('form', function () {
         var form = layui.form;
         //监听提交
-        form.on('submit(formDemo)', function (data) {
+        form.on('submit(loginBtn)', function (data) {
             layer.msg(JSON.stringify(data.field));
-            //登陆成功隐藏登陆页面
-            document.getElementById('loginPageID').style.display='none';
-            //登陆成功显示列表
-            document.getElementById('tableBox').style.display='block';
-            //登陆成功背景图片改为孔
-            document.body.style.backgroundImage='';
+            console.log(data.field);
+            layui.$.ajax({
+                url: '/wx/template/loginManage ', //提交接口
+                type: 'post',
+                data:{'name':data.field.username,'password':data.field.password},
+                success: function (res) {
+                    // //登陆成功隐藏登陆页面
+                    // document.getElementById('loginPageID').style.display = 'none';
+                    // //登陆成功显示列表
+                    // document.getElementById('tableBox').style.display = 'block';
+                    // //登陆成功背景图片改为孔
+                    // document.body.style.backgroundImage = '';
+                },
+                error: function (mas, textStatus, errorThrown) {
+                    layer.msg("请求失败");
+                }
+            });
             return false;
         });
     });

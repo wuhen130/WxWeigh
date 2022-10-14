@@ -9,47 +9,66 @@
     <link rel="stylesheet" href="../static/css/layui.css" media="all">
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
-<body>
-<div style="margin-bottom: 5px;">
+<body style="background-image: url(../static/image/background-image.jpeg);background-size: 100% 100%">
+<div style="margin-top:10%;">
     <!-- 示例-970 -->
-        <form action="" class="layui-form layui-form-pane">
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <input type="text" name="username" required lay-verify="required" placeholder="请输入用户名"
-                           autocomplete="off" class="layui-input">
+    <div class="layui-row layui-col-space15" style="margin: 0">
+        <div class="layui-col-md6"></div>
+        <div class="layui-col-md5">
+            <div class="layui-panel">
+                <div style="padding: 30px;">
+                    <blockquote class="layui-elem-quote">欢迎登陆</blockquote>
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">用户名</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="username" required lay-verify="required" placeholder="请输入用户名"
+                                       autocomplete="off"
+                                       class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">密码框</label>
+                            <div class="layui-input-block">
+                                <input type="password" name="password" required lay-verify="required"
+                                       placeholder="请输入密码"
+                                       autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="formDemo">登陆</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <input type="password" name="password" required lay-verify="required" placeholder="请输入密码"
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>
-        </form>
-        <div class="layui-form-item" style="text-align:center;">
-            <button class="layui-btn" lay-submit lay-filter="loginButton">登录</button>
         </div>
+        <div class="layui-col-md1"></div>
+        </div>
+</div>
+<div style="display: none">
+    <table class="layui-table" lay-data="{url:'wx/template/getUser', page:true, id:'idTest'}" style="display: none"
+           lay-filter="demo">
+        <thead>
+        <tr>
+
+            <th lay-data="{field:'openid', width:250}">ID</th>
+            <th lay-data="{field:'headimgurl', width:100px, height:100px ,templet:function(d){return'<img src=d.headimgurl/>'}}">
+                头像
+            </th>
+            <th lay-data="{field:'nickname', width:200}">用户名</th>
+            <th lay-data="{field:'name', width:120}">用户名</th>
+            <th lay-data="{field:'city', width:100}">城市</th>
+            <th lay-data="{field:'phone', width:80}">手机号</th>
+
+            <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}"></th>
+        </tr>
+        </thead>
+    </table>
 
 </div>
-
-<table class="layui-table" lay-data="{url:'wx/template/getUser', page:true, id:'idTest'}" style="display: none" lay-filter="demo">
-    <thead>
-    <tr>
-
-        <th lay-data="{field:'openid', width:250}">ID</th>
-        <th lay-data="{field:'headimgurl', width:100px, height:100px ,templet:function(d){return'<img src=d.headimgurl/>'}}">
-            头像
-        </th>
-        <th lay-data="{field:'nickname', width:200}">用户名</th>
-        <th lay-data="{field:'name', width:120}">用户名</th>
-        <th lay-data="{field:'city', width:100}">城市</th>
-        <th lay-data="{field:'phone', width:80}">手机号</th>
-
-        <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}"></th>
-    </tr>
-    </thead>
-</table>
-
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -103,29 +122,13 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-        $("#open_btn_up").on("click", function () {
-            layer.open({
-                title: ['登录', 'font-size:18px; color:orange;']
-                , anim: 0
-                , type: 1
-                , skin: 'demo-class'
-                , offset: 'auto'
-                , area: ['80%', '240px']//弹出区域
-                , content: $('#show_div')
-            });
-        })
-        /*layer.confirm('登录', {
-            btn: ['登录'] //可以无限个按钮
-        }, function(index, layero){
-            //按钮【按钮一】的回调
-        });*/
 
     });
-    layui.use('form', function(){
+    layui.use('form', function () {
         var form = layui.form;
 
         //监听提交
-        form.on('submit(loginButton)', function(data){
+        form.on('submit(formDemo)', function (data) {
             layer.msg(JSON.stringify(data.field));
             return false;
         });

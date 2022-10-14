@@ -114,7 +114,7 @@ public class TemplateControl {
 
     @ResponseBody
     @PostMapping("/loginManage")
-    public void loginMange(HttpServletRequest request, HttpServletResponse response) {
+    public void loginMange(String name, String phone, HttpServletResponse response) {
         //发送cookie
         //创建cookie
         Cookie cookie = new Cookie("username","xxxjj");

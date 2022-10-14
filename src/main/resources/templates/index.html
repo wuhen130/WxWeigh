@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="../static/css/layui.css" media="all">
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
-<body style="background-image: url(../static/image/background-image.jpeg);">
-<div style="margin-top:10%;" id="loginPageID">
+<body id="homePageBody">
+<div style="margin-top:10%;display:none" id="loginPageID" >
     <!-- 示例-970 -->
     <div class="layui-row layui-col-space15" style="margin: 0">
         <div class="layui-col-md6"></div>
@@ -79,19 +79,24 @@
 <script src="../static/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
 <script>
-
+    const loadStart = layer.load();
     //判断是否登录
     layui.use(function () {
             layui.$.ajax({
                 url: '/wx/template/isLogin', //提交接口
                 type: 'get',
                 success: function (res) {
-                    // //登陆成功隐藏登陆页面
-                    // document.getElementById('loginPageID').style.display = 'none';
-                    // //登陆成功显示列表
-                    // document.getElementById('tableBox').style.display = 'block';
-                    // //登陆成功背景图片改为孔
-                    // document.body.style.backgroundImage = '';
+                    layer.close(loadStart);
+                    console.log(res.islogin);
+                    if (res.islogin === 'yes'){
+                        //登陆成功显示列表
+                        document.getElementById('tableBox').style.display = 'block';
+                    } else if (res.islogin === 'no'){
+                        //未登录显示登录页面
+                        document.getElementById('loginPageID').style.display = 'block';
+                        //登陆成功加载背景图片
+                        document.getElementById('homePageBody').style.backgroundImage = 'url(../static/image/background-image.jpeg)';
+                    }
                 },
                 error: function (mas, textStatus, errorThrown) {
                     layer.msg("请求失败");
@@ -146,7 +151,7 @@
 
     });
     layui.use('form', function () {
-        var form = layui.form;
+        const form = layui.form;
         //监听提交
         form.on('submit(loginBtn)', function (data) {
             layer.msg(JSON.stringify(data.field));
@@ -154,8 +159,17 @@
             layui.$.ajax({
                 url: '/wx/template/loginManage ', //提交接口
                 type: 'post',
-                data:{'name':data.field.username,'password':data.field.password},
+                data: {'name': data.field.username, 'password': data.field.password},
                 success: function (res) {
+                    // if (res.state === '1'){
+                    //     document.getElementById('tableBox').style.display = 'block';
+                    // } else if(res.state === '0'){
+                    // } else  {
+                        layer.open({
+                            title: '系统维护中'
+                            ,content: '请联系管理人员'
+                        });
+                    // }
                     // //登陆成功隐藏登陆页面
                     // document.getElementById('loginPageID').style.display = 'none';
                     // //登陆成功显示列表

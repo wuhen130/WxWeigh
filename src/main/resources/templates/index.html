@@ -9,56 +9,66 @@
     <link rel="stylesheet" href="../static/css/layui.css" media="all">
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
-<body>
-<div style="margin-bottom: 5px;">
-
+<body style="background-image: url(../static/image/background-image.jpeg);background-size: 100% 100%">
+<div style="margin-top:10%;" id="loginPageID">
     <!-- 示例-970 -->
-    <ins class="adsbygoogle" style="display:inline-block;width:70px;height:90px" data-ad-client="ca-pub-6111334333458862" data-ad-slot="3820120620"></ins>
-    <!--<button style="height: 30px;width: 120px">用户管理请登录</button>-->
-    <button id="open_btn_up" type="button" class="layui-btn layui-btn-normal">用户管理请登录</button>
-        <div class="layadmin-user-login-box layadmin-user-login-body layui-form" style="display:none;" id="show_div">
-            <form action="" class="layui-form layui-form-pane">
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><i class="layui-icon layui-icon-user"></i></label>
-                    <div class="layui-input-block">
-                        <input type="text" name="username"  lay-verify="required|username" class="layui-input" placeholder="用户名">
-                    </div>
+    <div class="layui-row layui-col-space15" style="margin: 0">
+        <div class="layui-col-md6"></div>
+        <div class="layui-col-md5">
+            <div class="layui-panel">
+                <div style="padding: 30px;">
+                    <blockquote class="layui-elem-quote">欢迎登陆</blockquote>
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">用户名</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="username" required lay-verify="required" placeholder="请输入用户名"
+                                       autocomplete="off"
+                                       class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">密码框</label>
+                            <div class="layui-input-block">
+                                <input type="password" name="password" required lay-verify="required"
+                                       placeholder="请输入密码"
+                                       autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="formDemo">登陆</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><i class="layui-icon layui-icon-password"></i></label>
-                    <div class="layui-input-block">
-                        <input type="password" name="password" required lay-verify="required|password" class="layui-input" placeholder="密码">
-                    </div>
-                </div>
-            </form>
-            <div class="layui-form-item" style="text-align:center;">
-                <button class="layui-btn" lay-submit>登录</button>
             </div>
         </div>
+        <div class="layui-col-md1"></div>
+        </div>
 </div>
+<div style="display: none">
+    <table class="layui-table" lay-data="{url:'wx/template/getUser', page:true, id:'idTest'}" style="display: none"
+           lay-filter="demo">
+        <thead>
+        <tr>
 
-<div class="layui-btn-group demoTable">
-    <button class="layui-btn" data-type="getCheckData">获取选中行数据</button>
-    <button class="layui-btn" data-type="getCheckLength">获取选中数目</button>
-    <button class="layui-btn" data-type="isAll">验证是否全选</button>
+            <th lay-data="{field:'openid', width:250}">ID</th>
+            <th lay-data="{field:'headimgurl', width:100px, height:100px ,templet:function(d){return'<img src=d.headimgurl/>'}}">
+                头像
+            </th>
+            <th lay-data="{field:'nickname', width:200}">用户名</th>
+            <th lay-data="{field:'name', width:120}">用户名</th>
+            <th lay-data="{field:'city', width:100}">城市</th>
+            <th lay-data="{field:'phone', width:80}">手机号</th>
+
+            <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}"></th>
+        </tr>
+        </thead>
+    </table>
+
 </div>
-
-<table class="layui-table" lay-data="{url:'wx/template/getUser', page:true, id:'idTest'}" lay-filter="demo">
-    <thead>
-    <tr>
-
-        <th lay-data="{field:'openid', width:250}">ID</th>
-        <th lay-data="{field:'headimgurl', width:100px, height:100px ,templet:function(d){return'<img src=d.headimgurl/>'}}">头像</th>
-        <th lay-data="{field:'nickname', width:200}">用户名</th>
-        <th lay-data="{field:'name', width:120}">用户名</th>
-        <th lay-data="{field:'city', width:100}">城市</th>
-        <th lay-data="{field:'phone', width:80}">手机号</th>
-
-        <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}"></th>
-    </tr>
-    </thead>
-</table>
-
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -69,99 +79,59 @@
 <script src="../static/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
 <script>
-    layui.use('table', function(){
+    layui.use('table', function () {
         var table = layui.table;
 
         //监听表格复选框选择
-        table.on('checkbox(demo)', function(obj){
+        table.on('checkbox(demo)', function (obj) {
             console.log(obj)
         });
         //监听工具条
-        table.on('tool(demo)', function(obj){
+        table.on('tool(demo)', function (obj) {
             var data = obj.data;
-            if(obj.event === 'detail'){
-                $.ajax({
-                    type: 'POST',
-                    url: 'wx/template/loginManage',
-                    success: function (data) {//res为相应体,function为回调函数
-                        if (data.msg === "删除成功") {
-                            obj.del();
-                            alert("删除成功！");
-
-                            //window.history.back()
-                        }
-                    }
-                });
-                layer.msg('ID：'+ data.id + ' 的查看操作');
-            } else if(obj.event === 'del'){
-                layer.confirm('真的删除行么', function(index){
-
-                    $.ajax({
-                        type: 'POST',
-                        url: 'wx/template/delete/',
-                        data:{
-                            name: data.name,  //主键
-                            phone: data.phone,
-                            openid: data.openid,
-                        },
-                        dataType: "json",
-                        success: function (data) {//res为相应体,function为回调函数
-                            if (data.msg === "删除成功") {
-                                obj.del();
-                                alert("删除成功！");
-
-                                //window.history.back()
-                            }
-                        },
-                        error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            layer.alert('操作失败！！！' + XMLHttpRequest.status + "|" + XMLHttpRequest.readyState + "|" + textStatus, { icon: 5 });
-                        }
-                    });
+            if (obj.event === 'detail') {
+                layer.msg('ID：' + data.id + ' 的查看操作');
+            } else if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
                     layer.close(index);
                 });
-            } else if(obj.event === 'edit'){
-                layer.alert('编辑行：<br>'+ JSON.stringify(data))
+            } else if (obj.event === 'edit') {
+                layer.alert('编辑行：<br>' + JSON.stringify(data))
             }
         });
 
         var $ = layui.$, active = {
-            getCheckData: function(){ //获取选中数据
+            getCheckData: function () { //获取选中数据
                 var checkStatus = table.checkStatus('idTest')
-                    ,data = checkStatus.data;
+                    , data = checkStatus.data;
                 layer.alert(JSON.stringify(data));
             }
-            ,getCheckLength: function(){ //获取选中数目
+            , getCheckLength: function () { //获取选中数目
                 var checkStatus = table.checkStatus('idTest')
-                    ,data = checkStatus.data;
-                layer.msg('选中了：'+ data.length + ' 个');
+                    , data = checkStatus.data;
+                layer.msg('选中了：' + data.length + ' 个');
             }
-            ,isAll: function(){ //验证是否全选
+            , isAll: function () { //验证是否全选
                 var checkStatus = table.checkStatus('idTest');
-                layer.msg(checkStatus.isAll ? '全选': '未全选')
+                layer.msg(checkStatus.isAll ? '全选' : '未全选')
             }
         };
 
-        $('.demoTable .layui-btn').on('click', function(){
+        $('.demoTable .layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-        $("#open_btn_up").on("click", function(){
-            layer.open({
-                title:['登录', 'font-size:18px; color:orange;']
-                ,anim: 0
-                ,type:1
-                ,skin: 'demo-class'
-                ,offset: 'auto'
-                ,area: ['80%', '240px']//弹出区域
-                ,content:  $('#show_div')
-            });
-        })
-        /*layer.confirm('登录', {
-            btn: ['登录'] //可以无限个按钮
-        }, function(index, layero){
-            //按钮【按钮一】的回调
-        });*/
 
+    });
+    layui.use('form', function () {
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
     });
 </script>
 

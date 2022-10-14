@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -90,18 +92,19 @@ public class TemplateControl {
     @ResponseBody
     @GetMapping("/isLogin")
     public Object isLogin(HttpServletRequest request) {
-        String username = null;
+        //String dataLogin = null;
+        Map dataLogin = new HashMap<>();
         try {
             Cookie[] cookies = request.getCookies();
             if (cookies == null) {
-                String dataLogin = "no";
+                dataLogin.put("islogin","no");
                 return dataLogin;
             }else {
                 for (Cookie cookie : cookies){
                     /*if (CookieConst.COOKIE_UGC.equals(cookie.getName())) {
                         ugcInfo = cookie.getValue();
                     }*/
-                    username = "小明";
+                    dataLogin.put("islogin","用户张三");
                 }
             }
 
@@ -109,20 +112,27 @@ public class TemplateControl {
             System.out.printf("getUgcCookie error, [msg = {}]", e.getMessage(), e);
         }
 
-        return username;
+        return dataLogin;
     }
 
     @ResponseBody
     @PostMapping("/loginManage")
-    public void loginMange(String name, String phone, HttpServletResponse response) {
+    public Object loginMange(String name, String password, HttpServletResponse response) {
         //发送cookie
         //创建cookie
         Cookie cookie = new Cookie("username","xxxjj");
         //设置存活时间
-        cookie.setMaxAge(60*60*12);
-
+        cookie.setMaxAge(20);
         response.addCookie(cookie);
+        Map loginManages = new HashMap<>();
+        if (name == "张三" || password =="111"){
+            loginManages.put("state","登录成功");
+            return loginManages;
+        }else {
+            loginManages.put("state","登录失败");
+        }
 
+        return loginManages;
     }
 
     @ResponseBody

@@ -118,18 +118,19 @@ public class TemplateControl {
     @ResponseBody
     @PostMapping("/loginManage")
     public Object loginMange(String name, String password, HttpServletResponse response) {
-        //发送cookie
-        //创建cookie
-        Cookie cookie = new Cookie("username","xxxjj");
-        //设置存活时间
-        cookie.setMaxAge(20);
-        response.addCookie(cookie);
+
         Map loginManages = new HashMap<>();
-        if (name == "张三" || password =="111"){
-            loginManages.put("state","登录成功");
+        if (name.equals("张三") || password.equals("111")){
+            //发送cookie
+            //创建cookie
+            Cookie cookie = new Cookie("username","xxxjj");
+            //设置存活时间
+            cookie.setMaxAge(20);
+            response.addCookie(cookie);
+            loginManages.put("state","1");
             return loginManages;
         }else {
-            loginManages.put("state","登录失败");
+            loginManages.put("state","0");
         }
 
         return loginManages;

@@ -97,14 +97,14 @@ public class TemplateControl {
         try {
             Cookie[] cookies = request.getCookies();
             if (cookies == null) {
-                dataLogin.put("islogin","no");
+                dataLogin.put("islogin","0");
                 return dataLogin;
             }else {
                 for (Cookie cookie : cookies){
                     /*if (CookieConst.COOKIE_UGC.equals(cookie.getName())) {
                         ugcInfo = cookie.getValue();
                     }*/
-                    dataLogin.put("islogin","用户张三");
+                    dataLogin.put("userName","张三");
                 }
             }
 
@@ -120,6 +120,7 @@ public class TemplateControl {
     public Object loginMange(String name, String password, HttpServletResponse response) {
 
         Map loginManages = new HashMap<>();
+
         if (name.equals("张三") && password.equals("111")){
             //发送cookie
             //创建cookie

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>添加</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="stylesheet" href="css/layui.css">
+</head>
+<body>
+
+<form class="layui-form" action="" autocomplete="off" lay-filter="staff-modify">
+    <div class="layui-form">
+        <div class="layui-form-item required" style="margin-top: 20px;">
+            <label class="layui-form-label required">手机号:</label>
+            <div class="layui-input-block">
+                <input type="text" name="phone" lay-reqtext="手机号不能为空" placeholder="请输入电话" class="layui-input"
+                       autocomplete="off" width="200px">
+            </div>
+        </div>
+
+        <div class="layui-form-item required">
+            <label class="layui-form-label required">姓名:</label>
+            <div class="layui-input-block" >
+                <input type="text" name="name" lay-reqtext="姓名不能为空" placeholder="请输入姓名" value="" class="layui-input"
+                       autocomplete="off" width="200px">
+            </div>
+        </div>
+
+        <div class="layui-form-item required">
+
+            <div class="layui-input-block">
+                <input type="hidden" name="openid" lay-verify="openid" class="layui-input">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button style="float:right;margin-right: 15%;" class="layui-btn layui-btn-normal" lay-submit
+                        lay-filter="saveBtn">绑定
+                </button>
+
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script src="layui.js" charset="utf-8"></script>
+
+<script>
+    layui.use(function () {
+        var $ = layui.jquery,
+            form = layui.form;
+
+        function getParamValue(name) {
+            var paramsArray = getUrlParams();
+            if (paramsArray != null) {
+                for (var i = 0; i < paramsArray.length; i++) {
+                    for (var j in paramsArray[i]) {
+                        if (j == name) {
+                            return paramsArray[i][j];
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        // 获取地址栏的参数数组
+        function getUrlParams() {
+            var search = window.location.search;
+            // 写入数据字典
+            var tmparray = search.substr(1, search.length).split("&");
+            var paramsArray = new Array;
+            if (tmparray != null) {
+                for (var i = 0; i < tmparray.length; i++) {
+                    var reg = /[=|^==]/; // 用=进行拆分，但不包括==
+                    var set1 = tmparray[i].replace(reg, '&');
+                    var tmpStr2 = set1.split('&');
+                    var array = new Array;
+                    array[tmpStr2[0]] = tmpStr2[1];
+                    paramsArray.push(array);
+                }
+            }
+            // 将参数数组进行返回
+            return paramsArray;
+        }
+
+        function getQueryStringRegExp(name) {
+            var reg = new RegExp("(^|\\?|&)" + name + "=([^&]*)(\\s|&|$)", "i");
+            if (reg.test(location.href)) return unescape(RegExp.$2.replace(/\+/g, " "));
+            return "";
+        }
+
+        var code = getQueryStringRegExp("code");
+
+        layui.$.ajax({ //表单赋值
+            url: '/wx/template/login?code='+code, //这写的你的后端接口
+            type: "get",
+            success: function (data) {
+            	console.log(data);
+                console.log(data.openid);
+                form.val('staff-modify', {
+                    'openid': data.openid,
+
+                })
+            }
+        });
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+
+            data.field.shstate = 1;
+            $.ajax({
+                url: '/wx/template/update', //提交接口
+                data: data.field,
+                type: 'post',
+                success: function (res) {
+
+                    layer.msg(res.msg)
+                    //回调
+                },
+                error: function (mas, textStatus, errorThrown) {
+                    layer.msg("请求失败");
+                }
+
+            });
+            return false;
+
+        });
+
+
+    });
+</script>
+
+
+</body>
+</html>

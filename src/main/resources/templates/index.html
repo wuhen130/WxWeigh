@@ -52,10 +52,10 @@
     <div style="display: flex;">
         <ul class="layui-nav" style="width:100%">
             <li class="layui-nav-item" style="float: right">
-                <a href=""><img src="//t.cn/RCzsdCq" class="layui-nav-img">
+                <a href="javascript:;" onclick="addLayuiShow()"><img src="//t.cn/RCzsdCq" class="layui-nav-img">
                     <lable style="font-size: 18px" id="usernameShowID"></lable>
                 </a>
-                <dl class="layui-nav-child">
+                <dl class="layui-nav-child" id="IDlayuiNavChild" style="z-index: 10000">
                     <dd><a href="javascript:;" onclick="logout()">退出登录</a></dd>
                 </dl>
             </li>
@@ -65,8 +65,8 @@
            lay-filter="demo">
         <thead>
         <tr>
-            <th lay-data="{field:'openid', width:250}">ID</th>
-            <th lay-data="{field:'nickname', width:200}">微信名</th>
+            <th lay-data="{field:'openid'}">ID</th>
+            <th lay-data="{field:'nickname'}">微信名</th>
             <th lay-data="{field:'name', width:120}">用户名</th>
             <th lay-data="{field:'city', width:100}">城市</th>
             <th lay-data="{field:'phone', width:118}">手机号</th>
@@ -78,7 +78,6 @@
 </div>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
@@ -130,23 +129,24 @@
                 layer.confirm(message, function (index) {
                     console.log('obj=', obj.data);
                     const {name = '', openid = '', phone = ''} = obj.data
+                    const delLoading = layer.load(1);
                     layui.$.ajax({
                         url: '/wx/template/deleteUser', //提交接口
                         type: 'post',
                         data: {name, openid, phone},
                         success: function (res) {
+                            layer.close(delLoading);
                             layer.close(index);
                             obj.del();
                             console.log(res);
                         },
                         error: function (mas, textStatus, errorThrown) {
                             layer.msg("请求失败");
+                            layer.close(delLoading);
                             layer.close(index);
                         }
                     });
                 });
-            } else if (obj.event === 'edit') {
-                layer.alert('编辑行：<br>' + JSON.stringify(data))
             }
         });
 
@@ -210,6 +210,16 @@
             return false;
         });
     });
+    //顶部导航栏
+    const addLayuiShow = function () {
+        const classList = document.getElementById('IDlayuiNavChild').classList;
+        if (classList.contains('layui-show')) {
+            document.getElementById('IDlayuiNavChild').classList.remove('layui-show');
+        } else {
+            document.getElementById('IDlayuiNavChild').classList.add('layui-show');
+        }
+
+    }
     //退出登录
     const logout = function () {
         const logoutConfirm = layer.confirm('确认推出登录？', {
@@ -224,11 +234,8 @@
                     document.cookie = keys[i] + '=0;path=/;domain=kevis.com;expires=' + new Date(0).toUTCString();//清除一级域名下的或指定的，例如 .kevis.com
                 }
             }
-            console.log('keys=======',keys);
             layer.close(logoutConfirm);
         });
-
-
     };
 </script>
 

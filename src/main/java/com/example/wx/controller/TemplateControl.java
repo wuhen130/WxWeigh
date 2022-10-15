@@ -130,6 +130,11 @@ public class TemplateControl {
             System.out.printf(dataQueryUser);
             if(dataQueryUser.equals(name)){
                 loginManages.put("state","1");
+                //创建cookie
+                Cookie cookie = new Cookie("username","xxxjj");
+                //设置存活时间
+                cookie.setMaxAge(60*60);
+                response.addCookie(cookie);
                 return loginManages;
             }else {
                 loginManages.put("state","0");

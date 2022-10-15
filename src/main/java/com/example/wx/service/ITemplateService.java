@@ -17,4 +17,6 @@ public interface ITemplateService {
 
     DataVo deleteUser(String phone, String name, String openid);
 
+    String queryUser(String name, String password);
+
 }

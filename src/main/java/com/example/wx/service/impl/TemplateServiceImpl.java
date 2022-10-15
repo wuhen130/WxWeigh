@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.wx.entity.*;
 import com.example.wx.entity.template.*;
+import com.example.wx.mapper.LoginUpMapper;
 import com.example.wx.mapper.MessageMapper;
 import com.example.wx.mapper.UserInfoMapper;
 import com.example.wx.service.ITemplateService;
@@ -22,7 +23,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
@@ -31,6 +34,8 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
 
     @Autowired
     private UserInfoMapper mapper;
+    @Autowired
+    private LoginUpMapper loginMapper;
 
     /**
      * @param name         姓名       x
@@ -140,6 +145,8 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
         return dataVo;
     }
 
+
+
     @Override
     public DataVo<List<UserInfoList>> getUser(Integer page, Integer limit) {
         QueryWrapper wrapper = new QueryWrapper(null);
@@ -155,7 +162,6 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
 
 
     }
-
     @Override
     public DataVo postNameIsPhone(String openid, String name, String phone) {
         QueryWrapper wrapper = new QueryWrapper();
@@ -222,7 +228,6 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
             dataVo.setCount(0);
             return dataVo;
 
-
         }
 
         userInfoList.setPhone(phone);
@@ -280,8 +285,37 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
         mapper.delete(wrapper);
         /*userInfoList.setPhone(phone);
         userInfoList.setName(name);*/
-        dataVo.setMsg("删除成功");
+        dataVo.setMsg("1");
         return dataVo;
+    }
+
+    @Override
+    public String queryUser(String name,String password) {
+        //QueryWrapper wrapper = new QueryWrapper(null);
+        //用戶登录信息
+        login userName;
+        String returnErrerData = "0";
+        QueryWrapper wrapper = new QueryWrapper();
+        wrapper.eq("name", name);
+        userName = loginMapper.selectOne(wrapper);
+        //User user = mapper.selectOne(new QueryWrapper<User>().eq("username", username));
+        if(userName != null){
+            if (userName.getName() == null || userName.getPassword() == null){
+                //throw new UsernameNotFoundException("用户不存在");
+                System.out.printf("登录失败1");
+                return returnErrerData;
+            }else if(name.equals(userName.getName()) && password.equals(userName.getPassword())){
+                System.out.printf("登录成功");
+        //            Map mapName = new HashMap<>();
+        //            mapName.put("userName",name);
+                return name;
+            }else {
+                System.out.printf("登录失败2");
+                return returnErrerData;
+            }
+        }else{
+            return returnErrerData;
+        }
     }
 
 }

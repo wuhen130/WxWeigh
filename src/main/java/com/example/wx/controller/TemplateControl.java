@@ -100,6 +100,7 @@ public class TemplateControl {
                 dataLogin.put("isLogin","0");
                 return dataLogin;
             }else {
+                //找到cookie 判断cookie  从cookie中找到用户名  返回到前台
                 for (Cookie cookie : cookies){
                     /*if (CookieConst.COOKIE_UGC.equals(cookie.getName())) {
                         ugcInfo = cookie.getValue();
@@ -120,22 +121,21 @@ public class TemplateControl {
     public Object loginMange(String name, String password, HttpServletResponse response) {
 
         Map loginManages = new HashMap<>();
-
-        if (name.equals("张三") && password.equals("111")){
-            //发送cookie
-            //创建cookie
-            Cookie cookie = new Cookie("username","xxxjj");
-            //设置存活时间
-            cookie.setMaxAge(20);
-            response.addCookie(cookie);
-            loginManages.put("state","1");
+        if(name == null || password == null){
+            loginManages.put("state","0");
             return loginManages;
         }else {
-            loginManages.put("state","0");
+            //查询用户名和密码
+           String dataQueryUser = String.valueOf(iTemplateService.queryUser(name,password));
+            System.out.printf(dataQueryUser);
+            if(dataQueryUser.equals(name)){
+                loginManages.put("state","1");
+                return loginManages;
+            }else {
+                loginManages.put("state","0");
+                return loginManages;
+            }
         }
-
-        return loginManages;
-
     }
 
     @ResponseBody
@@ -146,7 +146,7 @@ public class TemplateControl {
 
     }
     @ResponseBody
-    @PostMapping("/delete")
+    @PostMapping("/deleteUser")
     public DataVo deleteUser(String phone, String name, String openid) {
 
         return iTemplateService.deleteUser(phone, name, openid);

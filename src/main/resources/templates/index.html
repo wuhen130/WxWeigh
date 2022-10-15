@@ -49,14 +49,24 @@
     </div>
 </div>
 <div style="display: none" id="tableBox">
+    <div style="margin-top: 8px;display: flex;flex-direction: column;align-items: flex-end">
+        <ul class="layui-nav">
+            <li class="layui-nav-item" style="float: right">
+                <a href=""><img src="//t.cn/RCzsdCq" class="layui-nav-img">
+                    <lable style="font-size: 18px" id="usernameShowID"></lable>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">设置</a></dd>
+                    <dd><a href="javascript:;">退出登录</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
     <table class="layui-table" lay-data="{url:'wx/template/getUser', page:true, id:'idTest'}" style="display: none"
            lay-filter="demo">
         <thead>
         <tr>
             <th lay-data="{field:'openid', width:250}">ID</th>
-            <th lay-data="{field:'headimgurl', width:100px, height:100px ,templet:function(d){return'<img src=d.headimgurl/>'}}">
-                头像
-            </th>
             <th lay-data="{field:'nickname', width:200}">微信名</th>
             <th lay-data="{field:'name', width:120}">用户名</th>
             <th lay-data="{field:'city', width:100}">城市</th>
@@ -88,6 +98,7 @@
                     if (res.isLogin === '1' || res.userName) {
                         //登陆成功显示列表
                         document.getElementById('tableBox').style.display = 'block';
+                        document.getElementById('usernameShowID').textContent = res.userName;
                     } else if (res.isLogin === '0') {
                         //未登录显示登录页面
                         document.getElementById('loginPageID').style.display = 'block';
@@ -101,7 +112,7 @@
             });
         }
     );
-    //列表布局页面
+    //table操作页面，删除、查看操作。
     layui.use('table', function () {
         const table = layui.table;
         //监听表格复选框选择
@@ -116,18 +127,18 @@
             } else if (obj.event === 'del') {
                 const {name = '', openid = '', phone = ''} = obj.data
                 console.log();
-                const message = '真的删除用户' + '<label style="color: darkred">'+name+'</label>' + '吗？';
+                const message = '真的删除用户' + '<label style="color: darkred">' + name + '</label>' + '吗？';
                 layer.confirm(message, function (index) {
                     console.log('obj=', obj.data);
                     const {name = '', openid = '', phone = ''} = obj.data
                     layui.$.ajax({
                         url: '/wx/template/deleteUser', //提交接口
                         type: 'post',
-                        data: {name,openid,phone},
+                        data: {name, openid, phone},
                         success: function (res) {
                             layer.close(index);
                             obj.del();
-                           console.log(res);
+                            console.log(res);
                         },
                         error: function (mas, textStatus, errorThrown) {
                             layer.msg("请求失败");

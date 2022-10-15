@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Layui</title>
+    <title>称重后台管理端</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -10,7 +10,7 @@
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body id="homePageBody">
-<div style="margin-top:10%;display:none" id="loginPageID" >
+<div style="margin-top:10%;display:none" id="loginPageID">
     <!-- 示例-970 -->
     <div class="layui-row layui-col-space15" style="margin: 0">
         <div class="layui-col-md6"></div>
@@ -53,16 +53,14 @@
            lay-filter="demo">
         <thead>
         <tr>
-
             <th lay-data="{field:'openid', width:250}">ID</th>
             <th lay-data="{field:'headimgurl', width:100px, height:100px ,templet:function(d){return'<img src=d.headimgurl/>'}}">
                 头像
             </th>
-            <th lay-data="{field:'nickname', width:200}">用户名</th>
+            <th lay-data="{field:'nickname', width:200}">微信名</th>
             <th lay-data="{field:'name', width:120}">用户名</th>
             <th lay-data="{field:'city', width:100}">城市</th>
             <th lay-data="{field:'phone', width:80}">手机号</th>
-
             <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}"></th>
         </tr>
         </thead>
@@ -87,11 +85,10 @@
                 type: 'get',
                 success: function (res) {
                     layer.close(loadStart);
-                    console.log(res.isLogin);
-                    if (res.isLogin === '1'){
+                    if (res.isLogin === '1' || res.userName) {
                         //登陆成功显示列表
                         document.getElementById('tableBox').style.display = 'block';
-                    } else if (res.isLogin === '0'){
+                    } else if (res.isLogin === '0') {
                         //未登录显示登录页面
                         document.getElementById('loginPageID').style.display = 'block';
                         //登陆成功加载背景图片
@@ -156,26 +153,27 @@
         form.on('submit(loginBtn)', function (data) {
             const index = layer.load(1); //点击加载
             layui.$.ajax({
-                url: '/wx/template/loginManage ', //提交接口
+                url: '/wx/template/loginManage', //提交接口
                 type: 'post',
                 data: {'name': data.field.username, 'password': data.field.password},
                 success: function (res) {
                     layer.close(index);
-                    if (res.state === '1'){
-                         document.getElementById('tableBox').style.display = 'block';
-                     } else if(res.state === '0'){
+                    if (res.state === '1') {
+                        document.getElementById('tableBox').style.display = 'block';
                         //登陆成功隐藏登陆页面
                         document.getElementById('loginPageID').style.display = 'none';
                         //登陆成功显示列表
                         document.getElementById('tableBox').style.display = 'block';
                         //登陆成功背景图片改为孔
                         document.body.style.backgroundImage = '';
-                     } else  {
+                    } else if (res.state === '0') {
+                        layer.msg('用户名或密码错误请重新输入', {icon: 5});
+                    } else {
                         layer.open({
                             title: '系统维护中'
-                            ,content: '请联系管理人员'
+                            , content: '请联系管理人员'
                         });
-                     }
+                    }
                 },
                 error: function (mas, textStatus, errorThrown) {
                     layer.msg("请求失败");

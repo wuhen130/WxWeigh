@@ -49,15 +49,14 @@
     </div>
 </div>
 <div style="display: none" id="tableBox">
-    <div style="margin-top: 8px;display: flex;flex-direction: column;align-items: flex-end">
-        <ul class="layui-nav">
+    <div style="display: flex;">
+        <ul class="layui-nav" style="width:100%">
             <li class="layui-nav-item" style="float: right">
                 <a href=""><img src="//t.cn/RCzsdCq" class="layui-nav-img">
                     <lable style="font-size: 18px" id="usernameShowID"></lable>
                 </a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;">设置</a></dd>
-                    <dd><a href="javascript:;">退出登录</a></dd>
+                    <dd><a href="javascript:;" onclick="logout()">退出登录</a></dd>
                 </dl>
             </li>
         </ul>
@@ -87,6 +86,7 @@
 <script src="../static/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
 <script>
+    //页面加载
     const loadStart = layer.load();
     //判断是否登录
     layui.use(function () {
@@ -126,7 +126,6 @@
                 layer.msg('ID：' + data.id + ' 的查看操作');
             } else if (obj.event === 'del') {
                 const {name = '', openid = '', phone = ''} = obj.data
-                console.log();
                 const message = '真的删除用户' + '<label style="color: darkred">' + name + '</label>' + '吗？';
                 layer.confirm(message, function (index) {
                     console.log('obj=', obj.data);
@@ -211,6 +210,26 @@
             return false;
         });
     });
+    //退出登录
+    const logout = function () {
+        const logoutConfirm = layer.confirm('确认推出登录？', {
+            btn: ['确认', '取消'] //可以无限个按
+        }, function () {
+            //清空cookie
+            const keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+            if (keys) {
+                for (let i = keys.length; i--;) {
+                    document.cookie = keys[i] + '=0;path=/;expires=' + new Date(0).toUTCString();//清除当前域名下的,例如：m.kevis.com
+                    document.cookie = keys[i] + '=0;path=/;domain=' + document.domain + ';expires=' + new Date(0).toUTCString();//清除当前域名下的，例如 .m.kevis.com
+                    document.cookie = keys[i] + '=0;path=/;domain=kevis.com;expires=' + new Date(0).toUTCString();//清除一级域名下的或指定的，例如 .kevis.com
+                }
+            }
+            console.log('keys=======',keys);
+            layer.close(logoutConfirm);
+        });
+
+
+    };
 </script>
 
 </body>

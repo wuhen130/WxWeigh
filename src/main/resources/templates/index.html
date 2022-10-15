@@ -116,28 +116,24 @@
             } else if (obj.event === 'del') {
                 const {name = '', openid = '', phone = ''} = obj.data
                 console.log();
-                layer.confirm('真的删除用户',name,'吗？', function (index) {
+                const message = '真的删除用户' + '<label style="color: darkred">'+name+'</label>' + '吗？';
+                layer.confirm(message, function (index) {
                     console.log('obj=', obj.data);
                     const {name = '', openid = '', phone = ''} = obj.data
                     layui.$.ajax({
                         url: '/wx/template/deleteUser', //提交接口
                         type: 'post',
-                        data: {'name': data.field.username, 'password': data.field.password},
+                        data: {name,openid,phone},
                         success: function (res) {
                             layer.close(index);
-                            if (res.state === '1') {
-
-                            } else if (res.state === '0') {
-                            } else {
-                            }
+                            obj.del();
+                           console.log(res);
                         },
                         error: function (mas, textStatus, errorThrown) {
                             layer.msg("请求失败");
                             layer.close(index);
                         }
                     });
-                    obj.del();
-                    layer.close(index);
                 });
             } else if (obj.event === 'edit') {
                 layer.alert('编辑行：<br>' + JSON.stringify(data))

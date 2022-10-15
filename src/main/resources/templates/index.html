@@ -154,31 +154,32 @@
         const form = layui.form;
         //监听提交
         form.on('submit(loginBtn)', function (data) {
-            layer.msg(JSON.stringify(data.field));
-            console.log(data.field);
+            const index = layer.load(1); //点击加载
             layui.$.ajax({
                 url: '/wx/template/loginManage ', //提交接口
                 type: 'post',
                 data: {'name': data.field.username, 'password': data.field.password},
                 success: function (res) {
-                     if (res.state === '1'){
+                    layer.close(index);
+                    if (res.state === '1'){
                          document.getElementById('tableBox').style.display = 'block';
                      } else if(res.state === '0'){
+                        //登陆成功隐藏登陆页面
+                        document.getElementById('loginPageID').style.display = 'none';
+                        //登陆成功显示列表
+                        document.getElementById('tableBox').style.display = 'block';
+                        //登陆成功背景图片改为孔
+                        document.body.style.backgroundImage = '';
                      } else  {
                         layer.open({
                             title: '系统维护中'
                             ,content: '请联系管理人员'
                         });
                      }
-                    // //登陆成功隐藏登陆页面
-                    // document.getElementById('loginPageID').style.display = 'none';
-                    // //登陆成功显示列表
-                    // document.getElementById('tableBox').style.display = 'block';
-                    // //登陆成功背景图片改为孔
-                    // document.body.style.backgroundImage = '';
                 },
                 error: function (mas, textStatus, errorThrown) {
                     layer.msg("请求失败");
+                    layer.close(index);
                 }
             });
             return false;

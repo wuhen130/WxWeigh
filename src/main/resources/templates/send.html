@@ -21,6 +21,11 @@
                     <dd><a href="javascript:;" onclick="logout()">退出登录</a></dd>
                 </dl>
             </li>
+            <li class="layui-nav-item" style="float: right">
+                <a href="/">
+                    <lable style="font-size: 18px">列表首页</lable>
+                </a>
+            </li>
         </ul>
     </div>
     <table class="layui-table" lay-data="{url:'wx/template/getUser', page:true, id:'idTest'}" style="display: none"
@@ -57,7 +62,7 @@
                         document.getElementById('tableBox').style.display = 'block';
                         document.getElementById('usernameShowID').textContent = res.userName;
                     } else if (res.isLogin === '0') {
-                        window.location.href='/';
+                        window.location.href = '/';
                     }
                 },
                 error: function (mas, textStatus, errorThrown) {

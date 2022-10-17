@@ -69,6 +69,7 @@
                        autocomplete="off" class="layui-input">
             </div>
             <button class="layui-btn" lay-submit lay-filter="searchBtn">搜索</button>
+            <button class="layui-btn" lay-submit lay-filter="searchBtnClear">清空搜索</button>
         </div>
     </form>
     <table class="layui-table" lay-data="{url:'wx/template/getUser', page:true, id:'idUserList'}" style="display: none"
@@ -225,6 +226,12 @@
             layui.table.reload('idUserList', {
                 url: '/wx/template/getOneUser'
                 , where: {name: data.field.name} //设定异步数据接口的额外参数
+            });
+            return false;
+        });
+        form.on('submit(searchBtnClear)', function (data) {
+            layui.table.reload('idUserList', {
+                url: 'wx/template/getUser'
             });
             return false;
         });

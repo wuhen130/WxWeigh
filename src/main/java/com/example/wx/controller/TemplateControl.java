@@ -63,6 +63,12 @@ public class TemplateControl {
         return iTemplateService.getUser(page, limit);
     }
 
+    @PostMapping("/getOneUser")
+    public DataVo<List<UserInfoList>> getOneUser(String name) {
+
+        return iTemplateService.getOneUser(name);
+    }
+
     /*//创建一个Cookie对象
     Cookie cookie = new Cookie("text","zhangsi");
     @GetMapping("/get")
@@ -131,7 +137,7 @@ public class TemplateControl {
             if(dataQueryUser.equals(name)){
                 loginManages.put("state","1");
                 //创建cookie
-                Cookie cookie = new Cookie("username","xxxjj");
+                Cookie cookie = new Cookie("username","cookievalue");
                 //设置存活时间
                 cookie.setMaxAge(60*60);
                 response.addCookie(cookie);

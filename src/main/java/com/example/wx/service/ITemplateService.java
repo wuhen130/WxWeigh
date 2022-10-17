@@ -19,4 +19,6 @@ public interface ITemplateService {
 
     String queryUser(String name, String password);
 
+    DataVo<List<UserInfoList>> getOneUser(String name);
+
 }

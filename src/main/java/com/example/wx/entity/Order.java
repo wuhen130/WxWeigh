@@ -1,0 +1,53 @@
+package com.example.wx.entity;
+
+import lombok.Data;
+
+import java.util.Date;
+
+
+@Data
+public class Order {
+
+    private int id;
+    private String openid;
+    private String name;
+    private String phone;
+
+    //货物名称
+    private String commodity;
+    //收货地址
+    private String receiving;
+    //发货地址
+    private String delivery;
+    //车牌号码
+    private String plate;
+    //毛重
+    private Double grossWeight;
+    //皮重
+    private Double tareWeight;
+    //净重
+    private String moisture;
+    //水分
+    private String impurities;
+    //杂质
+    private String bulkDensity;
+    //容量
+    private String mildew;
+    //霉变
+    private String unitPrice;
+    //单价
+    private String amount;
+    //金额
+    private String money;
+    //过皮时间
+    private Date skinTime;
+    //过毛时间
+    private Date time;
+    // 流水号
+    private int serialNumber;
+    //操作员
+    private String operator;
+
+    
+
+}

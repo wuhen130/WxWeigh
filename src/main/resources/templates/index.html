@@ -61,6 +61,16 @@
             </li>
         </ul>
     </div>
+    <form class="layui-form" action="" style="margin-bottom: 0;margin-top: 10px" ,>
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名搜索</label>
+            <div class="layui-input-inline">
+                <input type="text" name="name" required lay-verify="name" placeholder="请输入姓名"
+                       autocomplete="off" class="layui-input">
+            </div>
+            <button class="layui-btn" lay-submit lay-filter="searchBtn" >搜索</button>
+        </div>
+    </form>
     <table class="layui-table" lay-data="{url:'wx/template/getUser', page:true, id:'idTest'}" style="display: none"
            lay-filter="demo">
         <thead>
@@ -123,7 +133,7 @@
             const data = obj.data;
             if (obj.event === 'detail') {
                 layer.msg('ID：' + data.id + ' 的查看操作');
-                window.location.href='/send?';
+                window.location.href = '/send?';
             } else if (obj.event === 'del') {
                 const {name = '', openid = '', phone = ''} = obj.data
                 const message = '真的删除用户' + '<label style="color: darkred">' + name + '</label>' + '吗？';
@@ -177,7 +187,7 @@
     //登录表达提交
     layui.use('form', function () {
         const form = layui.form;
-        //监听提交
+        //监听登录提交
         form.on('submit(loginBtn)', function (data) {
             const index = layer.load(1); //点击加载
             layui.$.ajax({
@@ -209,6 +219,25 @@
                 }
             });
             return false;
+        });
+        //监听搜索提交
+        form.on('submit(searchBtn)', function (data) {
+            console.log(data.field);
+            return false;
+        });
+
+        form.verify({
+            name: function (value, item) { //value：表单的值、item：表单的DOM对象
+                if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
+                    return '用户名不能有特殊字符';
+                }
+                if(/(^\_)|(\__)|(\_+$)/.test(value)){
+                    return '用户名首尾不能出现下划线\'_\'';
+                }
+                if(/^\d+\d+\d$/.test(value)){
+                    return '用户名不能全为数字';
+                }
+            }
         });
     });
     //顶部导航栏

@@ -331,7 +331,7 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
 
         List<UserInfoList> userInfoLista = mapper.selectList(wrapper);
 
-        DataVo dataVo = new DataVo("用户获取成功", 0, 1, userInfoListPage.getRecords());
+        DataVo dataVo = new DataVo("用户获取成功", 0, 1, userInfoLista);
         return dataVo;
 
     }

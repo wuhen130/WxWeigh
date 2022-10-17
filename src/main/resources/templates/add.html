@@ -6,25 +6,27 @@
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="css/layui.css">
 </head>
 <body>
 
-<form class="layui-form" action="" autocomplete="off" lay-filter="staff-modify">
+<form class="layui-form" action="" autocomplete="off" lay-filter="staff-modify" style="width: 90%;margin: 0 auto;font-size: 20px;">
     <div class="layui-form">
-        <div class="layui-form-item required" style="margin-top: 20px;">
+        <div class="layui-form-item " style="margin-top: 20px;">
             <label class="layui-form-label required">手机号:</label>
             <div class="layui-input-block">
-                <input type="text" name="phone" lay-reqtext="手机号不能为空" placeholder="请输入电话" class="layui-input"
-                       autocomplete="off" width="200px">
+                <input type="number" name="phone" required lay-verify="required" placeholder="请输入电话" class="layui-input"
+                       autocomplete="off">
             </div>
         </div>
 
-        <div class="layui-form-item required">
-            <label class="layui-form-label required">姓名:</label>
-            <div class="layui-input-block" >
-                <input type="text" name="name" lay-reqtext="姓名不能为空" placeholder="请输入姓名" value="" class="layui-input"
-                       autocomplete="off" width="200px">
+        <div class="layui-form-item ">
+            <label class="layui-form-label ">姓名:</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" required lay-verify="required" lay-reqtext="姓名不能为空" placeholder="请输入姓名"
+                       value="" class="layui-input"
+                       autocomplete="off">
             </div>
         </div>
 
@@ -52,14 +54,14 @@
 
 <script>
     layui.use(function () {
-        var $ = layui.jquery,
+        const $ = layui.jquery,
             form = layui.form;
 
         function getParamValue(name) {
-            var paramsArray = getUrlParams();
+            const paramsArray = getUrlParams();
             if (paramsArray != null) {
-                for (var i = 0; i < paramsArray.length; i++) {
-                    for (var j in paramsArray[i]) {
+                for (let i = 0; i < paramsArray.length; i++) {
+                    for (const j in paramsArray[i]) {
                         if (j == name) {
                             return paramsArray[i][j];
                         }
@@ -71,10 +73,10 @@
 
         // 获取地址栏的参数数组
         function getUrlParams() {
-            var search = window.location.search;
+            const search = window.location.search;
             // 写入数据字典
-            var tmparray = search.substr(1, search.length).split("&");
-            var paramsArray = new Array;
+            const tmparray = search.substr(1, search.length).split("&");
+            const paramsArray = new Array;
             if (tmparray != null) {
                 for (var i = 0; i < tmparray.length; i++) {
                     var reg = /[=|^==]/; // 用=进行拆分，但不包括==
@@ -90,22 +92,21 @@
         }
 
         function getQueryStringRegExp(name) {
-            var reg = new RegExp("(^|\\?|&)" + name + "=([^&]*)(\\s|&|$)", "i");
+            const reg = new RegExp("(^|\\?|&)" + name + "=([^&]*)(\\s|&|$)", "i");
             if (reg.test(location.href)) return unescape(RegExp.$2.replace(/\+/g, " "));
             return "";
         }
 
-        var code = getQueryStringRegExp("code");
+        const code = getQueryStringRegExp("code");
 
         layui.$.ajax({ //表单赋值
-            url: '/wx/template/login?code='+code, //这写的你的后端接口
+            url: '/wx/template/login?code=' + code, //这写的你的后端接口
             type: "get",
             success: function (data) {
-            	console.log(data);
+                console.log(data);
                 console.log(data.openid);
                 form.val('staff-modify', {
                     'openid': data.openid,
-
                 })
             }
         });

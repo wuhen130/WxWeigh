@@ -324,14 +324,20 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
 
         //用戶列表信息
 
-        QueryWrapper wrapper = new QueryWrapper();
-        wrapper.eq("name", name);
+        /*QueryWrapper wrapper = new QueryWrapper();
+        wrapper.eq("name", name);*/
+
+        QueryWrapper<UserInfoList> queryWrapper = new QueryWrapper<>();
+        // like 表示包含某个字符
+        // likeLeft 表示以某个字符结尾
+        // likeRight 表示以某个字符开头的
+        queryWrapper.likeRight("name",name);
         //用戶列表信息
         IPage<UserInfoList> userInfoListPage = new Page<>(1, 10);
 
-        List<UserInfoList> userInfoLista = mapper.selectList(wrapper);
+        List<UserInfoList> userInfoLista = mapper.selectList(queryWrapper);
 
-        DataVo dataVo = new DataVo("用户获取成功", 0, 1, userInfoLista);
+        DataVo dataVo = new DataVo("用户获取成功", 0, 10, userInfoLista);
         return dataVo;
 
     }

@@ -318,6 +318,24 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
         }
     }
 
+    @Override
+    public DataVo<List<UserInfoList>> getOneUser(String name) {
+        //判断是否为空
+
+        //用戶列表信息
+
+        QueryWrapper wrapper = new QueryWrapper();
+        wrapper.eq("name", name);
+        //用戶列表信息
+        IPage<UserInfoList> userInfoListPage = new Page<>(1, 10);
+
+        List<UserInfoList> userInfoLista = mapper.selectList(wrapper);
+
+        DataVo dataVo = new DataVo("用户获取成功", 0, 1, userInfoListPage.getRecords());
+        return dataVo;
+
+    }
+
 }
 
 

@@ -71,7 +71,7 @@
             <button class="layui-btn" lay-submit lay-filter="searchBtn">搜索</button>
         </div>
     </form>
-    <table class="layui-table" lay-data="{url:'wx/template/getUser', page:true, id:'idTest'}" style="display: none"
+    <table class="layui-table" lay-data="{url:'wx/template/getUser', page:true, id:'idUserList'}" style="display: none"
            lay-filter="demo">
         <thead>
         <tr>
@@ -163,17 +163,17 @@
 
         const $ = layui.$, active = {
             getCheckData: function () { //获取选中数据
-                const checkStatus = table.checkStatus('idTest')
+                const checkStatus = table.checkStatus('idUserList')
                     , data = checkStatus.data;
                 layer.alert(JSON.stringify(data));
             }
             , getCheckLength: function () { //获取选中数目
-                const checkStatus = table.checkStatus('idTest')
+                const checkStatus = table.checkStatus('idUserList')
                     , data = checkStatus.data;
                 layer.msg('选中了：' + data.length + ' 个');
             }
             , isAll: function () { //验证是否全选
-                const checkStatus = table.checkStatus('idTest');
+                const checkStatus = table.checkStatus('idUserList');
                 layer.msg(checkStatus.isAll ? '全选' : '未全选')
             }
         };
@@ -222,8 +222,7 @@
         });
         //监听搜索提交
         form.on('submit(searchBtn)', function (data) {
-            console.log(data.field, '此处为根据姓名搜索，等待后端接口');
-            layui.table.reload('idTest', {
+            layui.table.reload('idUserList', {
                 url: '/wx/template/getOneUser'
                 , where: {name: data.field.name} //设定异步数据接口的额外参数
             });

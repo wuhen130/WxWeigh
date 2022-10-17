@@ -223,6 +223,17 @@
         //监听搜索提交
         form.on('submit(searchBtn)', function (data) {
             console.log(data.field, '此处为根据姓名搜索，等待后端接口');
+            layui.$.ajax({
+                url: '/wx/template/getOneUser', //提交接口
+                type: 'get',
+                data: {'name': data.field.name},
+                success: function (res) {
+                    console.log('接口请求成功');
+                },
+                error: function (mas, textStatus, errorThrown) {
+                    layer.msg("请求失败");
+                }
+            });
             return false;
         });
         //form表单校验

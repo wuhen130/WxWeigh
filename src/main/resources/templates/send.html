@@ -28,6 +28,16 @@
             </li>
         </ul>
     </div>
+    <form class="layui-form" action="" style="margin-bottom: 0;margin-top: 10px" ,>
+        <div class="layui-form-item">
+            <label class="layui-form-label">XXX用户的订单记录</label>
+            <div class="layui-input-inline">
+                <input type="text" name="name" required lay-verify="name" placeholder="请输入姓名"
+                       autocomplete="off" class="layui-input">
+            </div>
+            <button class="layui-btn" lay-submit lay-filter="searchBtn">搜索</button>
+        </div>
+    </form>
     <table class="layui-table" lay-data="{url:'wx/template/getUser', page:true, id:'idTest'}" style="display: none"
            lay-filter="demo">
         <thead>

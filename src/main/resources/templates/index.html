@@ -224,7 +224,7 @@
         form.on('submit(searchBtn)', function (data) {
             console.log(data.field, '此处为根据姓名搜索，等待后端接口');
             layui.table.reload('idTest', {
-                url: '/wx/template/getOneUser?name=' + data.field.name
+                url: '/wx/template/getOneUser'
                 , where: {name: data.field.name} //设定异步数据接口的额外参数
             });
             return false;

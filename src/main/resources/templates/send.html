@@ -30,7 +30,8 @@
     </div>
     <form class="layui-form" action="" style="margin-bottom: 0;margin-top: 10px" ,>
         <div class="layui-form-item">
-            <label class="layui-form-label" style="width: auto">XXX订单记录</label>
+            <label class="layui-form-label" style="width: auto"><span id="idRecordName"
+                                                                      style="color: rebeccapurple"></span>订单记录</label>
             <div class="layui-input-inline">
                 <input type="text" name="name" required lay-verify="name" placeholder="请输入姓名"
                        autocomplete="off" class="layui-input">
@@ -38,7 +39,7 @@
             <button class="layui-btn" lay-submit lay-filter="searchBtn">搜索</button>
         </div>
     </form>
-    <table class="layui-table" lay-data="{url:'wx/template/getOneUser?name=孙金亮', page:true, id:'idTest'}"
+    <table class="layui-table" lay-data="{url:'', page:true, id:'idRecodeList'}"
            lay-filter="demo">
         <thead>
         <tr>
@@ -57,7 +58,7 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">发送</a>
 </script>
 <script src="../static/layui.js" charset="utf-8"></script>
-<script>
+<script charset="utf-8">
     //页面加载
     const loadStart = layer.load();
     //判断是否登录
@@ -79,8 +80,58 @@
                     layer.msg("请求失败");
                 }
             });
+            const name = GetQueryString('name');
+            document.getElementById('idRecordName').innerText = name;
+            layui.table.reload('idRecodeList', {
+                url: '/wx/template/getOneUser'
+                , where: {name} //设定异步数据接口的额外参数
+            });
         }
     );
+
+    function GetQueryString(name) {
+        let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+        let r = revertUTF8(window.location.search).substr(1).match(reg) // search,查询？后面的参数，并匹配正则
+        if (r != null) {
+            return unescape(r[2])
+        }
+        return null
+    }
+
+    // UTF8编码转成汉字字符串
+    function revertUTF8(szInput) {
+        let x, wch, wch1, wch2, uch = "", szRet = "";
+        for (x = 0; x < szInput.length; x++) {
+            if (szInput.charAt(x) == "%") {
+                wch = parseInt(szInput.charAt(++x) + szInput.charAt(++x), 16);
+                if (!wch) {
+                    break;
+                }
+                if (!(wch & 0x80)) {
+                    wch = wch;
+                } else if (!(wch & 0x20)) {
+                    x++;
+                    wch1 = parseInt(szInput.charAt(++x) + szInput.charAt(++x), 16);
+                    wch = (wch & 0x1F) << 6;
+                    wch1 = wch1 & 0x3F;
+                    wch = wch + wch1;
+                } else {
+                    x++;
+                    wch1 = parseInt(szInput.charAt(++x) + szInput.charAt(++x), 16);
+                    x++;
+                    wch2 = parseInt(szInput.charAt(++x) + szInput.charAt(++x), 16);
+                    wch = (wch & 0x0F) << 12;
+                    wch1 = (wch1 & 0x3F) << 6;
+                    wch2 = (wch2 & 0x3F);
+                    wch = wch + wch1 + wch2;
+                }
+                szRet += String.fromCharCode(wch);
+            } else {
+                szRet += szInput.charAt(x);
+            }
+        }
+        return (szRet);
+    }
 </script>
 </body>
 </html>

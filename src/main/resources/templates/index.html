@@ -69,7 +69,7 @@
                        autocomplete="off" class="layui-input">
             </div>
             <button class="layui-btn" lay-submit lay-filter="searchBtn">搜索</button>
-            <button class="layui-btn" lay-submit lay-filter="searchBtnClear">清空搜索</button>
+            <button class="layui-btn" lay-submint lay-filter="searchBtnClear">清空搜索</button>
         </div>
     </form>
     <table class="layui-table" lay-data="{url:'wx/template/getUser', page:true, id:'idUserList'}" style="display: none"
@@ -134,7 +134,7 @@
             const data = obj.data;
             if (obj.event === 'detail') {
                 layer.msg('ID：' + data.id + ' 的查看操作');
-                window.location.href = '/send?=' + data.name;
+                window.location.href = '/send?name=' + data.name;
             } else if (obj.event === 'del') {
                 const {name = '', openid = '', phone = ''} = obj.data
                 const message = '真的删除用户' + '<label style="color: darkred">' + name + '</label>' + '吗？';
@@ -230,10 +230,7 @@
             return false;
         });
         form.on('submit(searchBtnClear)', function (data) {
-            layui.table.reload('idUserList', {
-                url: 'wx/template/getUser'
-            });
-            return false;
+            window.location.href = '/';
         });
         //form表单校验
         form.verify({

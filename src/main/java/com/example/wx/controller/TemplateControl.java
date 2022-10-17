@@ -63,7 +63,7 @@ public class TemplateControl {
         return iTemplateService.getUser(page, limit);
     }
 
-    @PostMapping("/getOneUser")
+    @GetMapping("/getOn
     public DataVo<List<UserInfoList>> getOneUser(String name) {
 
         return iTemplateService.getOneUser(name);

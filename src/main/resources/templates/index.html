@@ -124,7 +124,7 @@
     );
     //table操作页面，删除、查看操作。
     layui.use('table', function () {
-        var table = layui.table;
+        const table = layui.table;
         //监听表格复选框选择
         table.on('checkbox(demo)', function (obj) {
             console.log(obj)

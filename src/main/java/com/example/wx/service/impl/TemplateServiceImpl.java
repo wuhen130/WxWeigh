@@ -206,12 +206,20 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
 
     //返回订单信息
     @Override
-    public Order sendMessageTopopup(String openid) {
+    public List<Order> sendMessageTopopup(String openid) {
 
-        QueryWrapper wrapper = new QueryWrapper();
+       /* QueryWrapper wrapper = new QueryWrapper();
 
-        wrapper.eq("id", openid);
-        Order orders =   orderMapper.selectById(wrapper);
+        QueryWrapper orderwr = (QueryWrapper) wrapper.eq("name", "颜虎");
+        System.out.println(wrapper);
+        if(openid == null){
+        }*/
+        /*Order orderMessage = new Order();
+        orderMessage.setOpenId(openid);*/
+        HashMap<String,Object> mapOrder = new HashMap<>();
+        mapOrder.put("open_id",openid);
+        List<Order> orders = orderMapper.selectByMap(mapOrder);
+        System.out.println(orders);
         return orders;
     }
 

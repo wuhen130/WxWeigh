@@ -10,7 +10,7 @@ import java.util.Date;
 @TableName("`order`")
 public class Order {
 
-    //private Integer id;
+    private Integer id;
     private String openId;
     private String name;
     private String phone;

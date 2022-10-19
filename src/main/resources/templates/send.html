@@ -252,13 +252,13 @@
             <input type="text" id="form-phone" name="phone" autocomplete="off" class="layui-input">
         </div>
     </div>
-    <div class="layui-form-item">
+    <div class="layui-form-item layui-hide">
         <label class="layui-form-label">openid</label>
         <div class="layui-input-block">
             <input type="text" id="form-openId" name="openId" autocomplete="off" class="layui-input">
         </div>
     </div>
-    <div class="layui-form-item">
+    <div class="layui-form-item layui-hide">
         <label class="layui-form-label">ID</label>
         <div class="layui-input-block">
             <input type="text" id="form-id" name="id" autocomplete="off" class="layui-input">
@@ -394,6 +394,22 @@
                    class="layui-input">
         </div>
     </div>
+    <div class="layui-form-item layui-hide">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <input type="text" id="form-note" name="note"
+                   autocomplete="off" value=""
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-hide">
+        <label class="layui-form-label">其他</label>
+        <div class="layui-input-block">
+            <input type="text" id="form-miscellaneous" name="miscellaneous"
+                   autocomplete="off" value=""
+                   class="layui-input">
+        </div>
+    </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit lay-filter="formDemo">发送</button>
@@ -409,6 +425,20 @@
         form.on('submit(formDemo)', function (data) {
             console.log(data.field)
             layer.msg(JSON.stringify(data.field));
+            const index = layer.load(1); //点击加载
+            layui.$.ajax({
+                url: '/wx/template/sendSaveMessage', //提交接口
+                type: 'post',
+                data: data.field,
+                success: function (res) {
+                    layer.close(index);
+                },
+                error: function (mas, textStatus, errorThrown) {
+                    layer.msg("请求失败");
+                    layer.close(index);
+                }
+            });
+
             return false;
         });
     });

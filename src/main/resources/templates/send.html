@@ -10,54 +10,68 @@
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
-<div id="tableBox">
-    <div style="display: flex;">
-        <ul class="layui-nav" style="width:100%">
-            <li class="layui-nav-item" style="float: right">
-                <a href="javascript:;" onclick="addLayuiShow()"><img src="//t.cn/RCzsdCq" class="layui-nav-img">
-                    <lable style="font-size: 18px" id="usernameShowID"></lable>
-                </a>
-                <dl class="layui-nav-child" id="IDlayuiNavChild" style="z-index: 10000">
-                    <dd><a href="javascript:;" onclick="logout()">退出登录</a></dd>
-                </dl>
-            </li>
-            <li class="layui-nav-item" style="float: right">
-                <a href="/">
-                    <lable style="font-size: 18px">列表首页</lable>
-                </a>
-            </li>
-        </ul>
-    </div>
-    <form class="layui-form" action="" style="margin-bottom: 0;margin-top: 10px" ,>
-        <div class="layui-form-item">
-            <div class="layui-form">
-                <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label" style="width: auto"><span id="idRecordName"
-                                                                                  style="color: rebeccapurple"></span>的订单记录</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" id="searchDate" placeholder="选择日期查询">
-                        </div>
-                        <button class="layui-btn" lay-submit lay-filter="searchBtnClear">清空</button>
+<div style="display: flex;">
+    <ul class="layui-nav" style="width:100%">
+        <li class="layui-nav-item" style="float: right">
+            <a href="javascript:;" onclick="addLayuiShow()"><img src="//t.cn/RCzsdCq" class="layui-nav-img">
+                <lable style="font-size: 18px" id="usernameShowID"></lable>
+            </a>
+            <dl class="layui-nav-child" id="IDlayuiNavChild" style="z-index: 10000">
+                <dd><a href="javascript:;" onclick="logout()">退出登录</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item" style="float: right">
+            <a href="/">
+                <lable style="font-size: 18px">列表首页</lable>
+            </a>
+        </li>
+    </ul>
+</div>
+<form class="layui-form" action="" style="margin-bottom: 0;margin-top: 10px" ,>
+    <div class="layui-form-item">
+        <div class="layui-form">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto"><span id="idRecordName"
+                                                                              style="color: rebeccapurple"></span>的订单记录</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="searchDate" placeholder="选择日期查询">
                     </div>
+                    <button class="layui-btn" lay-submit lay-filter="searchBtnClear">清空</button>
                 </div>
             </div>
         </div>
-    </form>
-    <table class="layui-table" lay-data="{url:'', page:true, id:'idRecodeList'}"
-           lay-filter="recordTable">
-        <thead>
-        <tr>
-            <th lay-data="{field:'openid'}">ID</th>
-            <th lay-data="{field:'nickname'}">微信名</th>
-            <th lay-data="{field:'name', width:120}">用户名</th>
-            <th lay-data="{field:'city', width:100}">城市</th>
-            <th lay-data="{field:'phone', width:118}">手机号</th>
-            <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}">操作</th>
-        </tr>
-        </thead>
-    </table>
-</div>
+    </div>
+</form>
+<table class="layui-table" lay-data="{url:'', page:false, id:'idRecodeList'}"
+       lay-filter="recordTable">
+    <thead>
+    <tr>
+        <th lay-data="{field:'name',fixed:'left'}">用户名</th>
+        <th lay-data="{field:'id'}">ID</th>
+        <th lay-data="{field:'openid'}">openid</th>
+        <th lay-data="{field:'phone'}">手机号</th>
+        <th lay-data="{field:'commodity'}">货物名称</th>
+        <th lay-data="{field:'receiving'}">收获地址</th>
+        <th lay-data="{field:'delivery'}">发货地址</th>
+        <th lay-data="{field:'plate'}">车牌号</th>
+        <th lay-data="{field:'grossWeight'}">毛重</th>
+        <th lay-data="{field:'tareWeight'}">皮重</th>
+        <th lay-data="{field:'moisture'}">净重</th>
+        <th lay-data="{field:'impurities'}">水分</th>
+        <th lay-data="{field:'bulkDensity'}">杂质</th>
+        <th lay-data="{field:'mildew'}">容量</th>
+        <th lay-data="{field:'unitPrice'}">霉变</th>
+        <th lay-data="{field:'amount'}">单价</th>
+        <th lay-data="{field:'money'}">金额</th>
+        <th lay-data="{field:'skinTime'}">过皮时间</th>
+        <th lay-data="{field:'time'}">过毛时间</th>
+        <th lay-data="{field:'serialNumber'}">流水号</th>
+        <th lay-data="{field:'operator'}">操作员</th>
+        <th lay-data="{fixed: 'right', width:100, align:'center', toolbar: '#barDemo'}">操作</th>
+    </tr>
+    </thead>
+</table>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="editSend">编辑发送</a>
 </script>
@@ -74,7 +88,6 @@
                     layer.close(loadStart);
                     if (res.isLogin === '1' || res.userName) {
                         //登陆成功显示列表
-                        document.getElementById('tableBox').style.display = 'block';
                         document.getElementById('usernameShowID').textContent = res.userName;
                     } else if (res.isLogin === '0') {
                         window.location.href = '/';

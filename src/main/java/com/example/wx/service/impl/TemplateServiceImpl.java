@@ -11,6 +11,7 @@ import com.example.wx.entity.*;
 import com.example.wx.entity.template.*;
 import com.example.wx.mapper.LoginUpMapper;
 import com.example.wx.mapper.MessageMapper;
+import com.example.wx.mapper.OrderMapper;
 import com.example.wx.mapper.UserInfoMapper;
 import com.example.wx.service.ITemplateService;
 import com.example.wx.util.HttpRequest;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +38,8 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
     private UserInfoMapper mapper;
     @Autowired
     private LoginUpMapper loginMapper;
+    @Autowired
+    private OrderMapper orderMapper;
 
     /**
      * @param name         姓名       x
@@ -145,7 +149,71 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
         return dataVo;
     }
 
+    /**
+     * @param name         姓名       x
+     * @param phone        手机号    s
+     * @param commodity    货物名称   h
+     * @param receiving    收货地址       s
+     * @param delivery     发货地址     f
+     * @param plate        车牌号码       c
+     * @param grossWeight  毛重    m
+     * @param tareWeight   皮重      p
+     * @param moisture     净重        j
+     * @param impurities   水分 s
+     * @param bulkDensity  杂质     z
+     * @param mildew       容重    r
+     * @param unitPrice    霉变  m
+     * @param amount       单价    z
+     * @param money        金额 j
+     * @param skinTime     过皮时间    g
+     * @param time         过毛时间       g
+     * @param serialNumber 流水号      l
+     * @param operator     操作员       c
+     * @return
+     */
 
+    @Override
+    public DataVo<String> sendAcquireMessage(String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator, String note, String miscellaneous) {
+        //1.拿到所有的值
+        Order orderAll = new Order();
+        //orderAll.setId(2);
+        orderAll.setOpenId("oEq7rw-udo5FS6D9E3H-H0C3-6S8");
+        orderAll.setName(name);
+        orderAll.setPhone(phone);
+        orderAll.setCommodity(commodity);//货物名称
+        orderAll.setReceiving(receiving);//收货地址
+        orderAll.setDelivery(delivery);//发货地址
+        orderAll.setPlate(plate);//车牌号
+        orderAll.setGross_weight(grossWeight);//毛重
+        orderAll.setTare_weight(tareWeight);//皮重
+        orderAll.setMoisture(moisture);//a净重
+        orderAll.setImpurities(impurities);//水分
+        orderAll.setBulkDensity(bulkDensity);//杂质
+        orderAll.setMildew(mildew);//容重
+        orderAll.setUnitPrice(unitPrice);//霉变
+        orderAll.setAmount(amount);//单价
+        orderAll.setMoney(money);//金额
+        orderAll.setSkinTime(skinTime);//过皮时间
+        orderAll.setTime(time);//过毛时间
+        orderAll.setSerialNumber(serialNumber);//流水号
+        orderAll.setOperator(operator);//操作员
+        System.out.printf(orderAll.getName());
+        //2.进行插入
+        orderMapper.insert(orderAll);
+
+        return null;
+    }
+
+    //返回订单信息
+    @Override
+    public Order sendMessageTopopup(String openid) {
+
+        QueryWrapper wrapper = new QueryWrapper();
+
+        wrapper.eq("id", openid);
+        Order orders =   orderMapper.selectById(wrapper);
+        return orders;
+    }
 
     @Override
     public DataVo<List<UserInfoList>> getUser(Integer page, Integer limit) {
@@ -341,6 +409,7 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
         return dataVo;
 
     }
+
 
 }
 

@@ -1,15 +1,17 @@
 package com.example.wx.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.util.Date;
 
 
 @Data
+@TableName("`order`")
 public class Order {
 
-    private int id;
-    private String openid;
+    //private Integer id;
+    private String openId;
     private String name;
     private String phone;
 
@@ -22,9 +24,9 @@ public class Order {
     //车牌号码
     private String plate;
     //毛重
-    private Double grossWeight;
+    private String gross_weight;
     //皮重
-    private Double tareWeight;
+    private String tare_weight;
     //净重
     private String moisture;
     //水分
@@ -40,11 +42,11 @@ public class Order {
     //金额
     private String money;
     //过皮时间
-    private Date skinTime;
+    private String skinTime;
     //过毛时间
-    private Date time;
+    private String time;
     // 流水号
-    private int serialNumber;
+    private String serialNumber;
     //操作员
     private String operator;
 

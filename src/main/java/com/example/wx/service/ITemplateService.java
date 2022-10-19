@@ -1,5 +1,6 @@
 package com.example.wx.service;
 
+import com.example.wx.entity.Order;
 import com.example.wx.entity.UserInfoList;
 import com.example.wx.vo.DataVo;
 
@@ -21,4 +22,7 @@ public interface ITemplateService {
 
     DataVo<List<UserInfoList>> getOneUser(String name);
 
+    DataVo<String>sendAcquireMessage(String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator,String note,String miscellaneous);
+
+    Order sendMessageTopopup(String openid);
 }

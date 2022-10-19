@@ -1,6 +1,7 @@
 package com.example.wx.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.wx.entity.Order;
 import com.example.wx.entity.UserInfoList;
 import com.example.wx.service.ITemplateService;
 import com.example.wx.util.HttpRequest;
@@ -45,10 +46,31 @@ public class TemplateControl {
     @PostMapping("/send")
     public DataVo<String> send(String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator,String note,String miscellaneous) {
 
+        //调用send接口
+        //伪造数据，进行所有值的获取
 
+
+
+        iTemplateService.sendAcquireMessage("颜虎", "13622129921", "货物名称玉米", "收货单位测试部", "发货单位测试部", "鲁BAA123", "毛重2000", "皮重1000",
+                "净重1000", "水分1.2", "2.2", "560", "3.3", "1.4", "2999", "2022-10-17 22:11:11", "2022-10-17 22:22:22", "2022101802050", "操作员","备注","其他");
 
         return iTemplateService.sendMessage(name, phone, commodity, receiving, delivery, plate, grossWeight, tareWeight,
                 moisture, impurities, bulkDensity, mildew, unitPrice, amount, money, skinTime, time, serialNumber, operator,note,miscellaneous);
+//        {{first.DATA}}
+//        货物名称：{{keyword1.DATA}}
+//        收货单位：{{keyword2.DATA}}
+//        发货单位：{{keyword3.DATA}}
+//        称重结果：{{keyword4.DATA}}
+//        {{remark.DATA}}
+    }
+    @ResponseBody
+    @PostMapping("/sendAcquireMessage")
+    public DataVo<String> sendAcquireMessage(String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator,String note,String miscellaneous) {
+        //调用send接口
+        //伪造数据，进行所有值的获取
+        return  iTemplateService.sendAcquireMessage("颜虎", "13622129921", "货物名称玉米", "收货单位测试部", "发货单位测试部", "鲁BAA123", "毛重2000", "皮重1000",
+                "净重1000", "水分1.2", "2.2", "560", "3.3", "1.4", "2999", "2022-10-17", "2022-10-17", "2022101802050", "操作员","备注","其他");
+
 //        {{first.DATA}}
 //        货物名称：{{keyword1.DATA}}
 //        收货单位：{{keyword2.DATA}}
@@ -136,6 +158,7 @@ public class TemplateControl {
             System.out.printf(dataQueryUser);
             if(dataQueryUser.equals(name)){
                 loginManages.put("state","1");
+                loginManages.put("name",name);
                 //创建cookie
                 Cookie cookie = new Cookie("username","cookievalue");
                 //设置存活时间
@@ -161,6 +184,13 @@ public class TemplateControl {
     public DataVo deleteUser(String phone, String name, String openid) {
 
         return iTemplateService.deleteUser(phone, name, openid);
+
+    }
+    @ResponseBody
+    @PostMapping("/sendMessageTopopup")
+    public Order sendMessageTopopup(String openid) {
+
+        return iTemplateService.sendMessageTopopup(openid);
 
     }
 

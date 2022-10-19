@@ -47,27 +47,26 @@
        lay-filter="recordTable">
     <thead>
     <tr>
-        <th lay-data="{field:'name',fixed:'left'}">用户名</th>
+        <th lay-data="{field:'name',fixed:'left',width:78}">用户名</th>
+        <th lay-data="{field:'phone',width:116}">手机号</th>
+        <th lay-data="{field:'commodity',width:120}">货物名称</th>
+        <th lay-data="{field:'receiving',width:120}">收获地址</th>
+        <th lay-data="{field:'delivery',width:120}">发货地址</th>
+        <th lay-data="{field:'grossWeight',width:120}">毛重</th>
+        <th lay-data="{field:'tareWeight',width:120}">皮重</th>
+        <th lay-data="{field:'moisture',width:120}">净重</th>
+        <th lay-data="{field:'impurities',width:120}">水分</th>
+        <th lay-data="{field:'bulkDensity',width:120}">杂质</th>
+        <th lay-data="{field:'mildew',width:120}">容量</th>
+        <th lay-data="{field:'unitPrice',width:120}">霉变</th>
+        <th lay-data="{field:'amount',width:120}">单价</th>
+        <th lay-data="{field:'money',width:120}">金额</th>
+        <th lay-data="{field:'skinTime',width:120}">过皮时间</th>
+        <th lay-data="{field:'time',width:120}">过毛时间</th>
         <th lay-data="{field:'id'}">ID</th>
         <th lay-data="{field:'openId'}">openid</th>
-        <th lay-data="{field:'phone'}">手机号</th>
-        <th lay-data="{field:'commodity'}">货物名称</th>
-        <th lay-data="{field:'receiving'}">收获地址</th>
-        <th lay-data="{field:'delivery'}">发货地址</th>
-        <th lay-data="{field:'plate'}">车牌号</th>
-        <th lay-data="{field:'grossWeight'}">毛重</th>
-        <th lay-data="{field:'tareWeight'}">皮重</th>
-        <th lay-data="{field:'moisture'}">净重</th>
-        <th lay-data="{field:'impurities'}">水分</th>
-        <th lay-data="{field:'bulkDensity'}">杂质</th>
-        <th lay-data="{field:'mildew'}">容量</th>
-        <th lay-data="{field:'unitPrice'}">霉变</th>
-        <th lay-data="{field:'amount'}">单价</th>
-        <th lay-data="{field:'money'}">金额</th>
-        <th lay-data="{field:'skinTime'}">过皮时间</th>
-        <th lay-data="{field:'time'}">过毛时间</th>
-        <th lay-data="{field:'serialNumber'}">流水号</th>
-        <th lay-data="{field:'operator'}">操作员</th>
+        <th lay-data="{field:'serialNumber',width:120}">流水号</th>
+        <th lay-data="{field:'operator',width:120}">操作员</th>
         <th lay-data="{fixed: 'right', width:100, align:'center', toolbar: '#barDemo'}">操作</th>
     </tr>
     </thead>
@@ -188,8 +187,8 @@
                 receiving,
                 delivery,
                 plate,
-                grossWeight='1',
-                tareWeight='1',
+                grossWeight = '1',
+                tareWeight = '1',
                 moisture,
                 impurities,
                 bulkDensity,
@@ -213,9 +212,9 @@
             SetKeyValue('form-money', money, true)
             SetKeyValue('form-operator', operator)
             SetKeyValue('form-plate', plate, true)
-            SetKeyValue('form-skinTime', skinTime, true)
+            SetKeyValue('form-skinTime', skinTime)
             SetKeyValue('form-tareWeight', tareWeight, true)
-            SetKeyValue('form-time', time, true)
+            SetKeyValue('form-time', time)
             SetKeyValue('form-unitPrice', unitPrice, true)
             SetKeyValue('form-amount', amount, true)
             SetKeyValue('form-impurities', impurities, true)

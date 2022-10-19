@@ -46,14 +46,6 @@ public class TemplateControl {
     @PostMapping("/send")
     public DataVo<String> send(String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator,String note,String miscellaneous) {
 
-        //调用send接口
-        //伪造数据，进行所有值的获取
-
-
-
-        iTemplateService.sendAcquireMessage("颜虎", "13622129921", "货物名称玉米", "收货单位测试部", "发货单位测试部", "鲁BAA123", "毛重2000", "皮重1000",
-                "净重1000", "水分1.2", "2.2", "560", "3.3", "1.4", "2999", "2022-10-17 22:11:11", "2022-10-17 22:22:22", "2022101802050", "操作员","备注","其他");
-
         return iTemplateService.sendMessage(name, phone, commodity, receiving, delivery, plate, grossWeight, tareWeight,
                 moisture, impurities, bulkDensity, mildew, unitPrice, amount, money, skinTime, time, serialNumber, operator,note,miscellaneous);
 //        {{first.DATA}}
@@ -188,7 +180,7 @@ public class TemplateControl {
     }
     @ResponseBody
     @PostMapping("/sendMessageTopopup")
-    public Order sendMessageTopopup(String openid) {
+    public List<Order> sendMessageTopopup(String openid) {
 
         return iTemplateService.sendMessageTopopup(openid);
 

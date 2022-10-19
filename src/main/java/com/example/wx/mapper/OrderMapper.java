@@ -18,6 +18,6 @@ import java.util.List;
  */
 public interface OrderMapper extends BaseMapper<Order> {
 
-    @Insert("INSERT INTO order VALUES #{name},#{phone}")
-     Order inserts(@Param("name") String name, @Param( "phone") String phone);
+    @Select("SELECT * FROM order WHERE #{id}")
+     Order SelectOnes(@Param("id") String id);
 }

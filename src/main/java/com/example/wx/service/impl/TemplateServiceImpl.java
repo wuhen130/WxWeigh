@@ -208,20 +208,45 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
     @Override
     public DataVo<List<Order>> sendMessageTopopup(String openid) {
 
-       /* QueryWrapper wrapper = new QueryWrapper();
-
-        QueryWrapper orderwr = (QueryWrapper) wrapper.eq("name", "颜虎");
-        System.out.println(wrapper);
-        if(openid == null){
-        }*/
-        /*Order orderMessage = new Order();
-        orderMessage.setOpenId(openid);*/
         HashMap<String,Object> mapOrder = new HashMap<>();
         mapOrder.put("open_id",openid);
         List<Order> orders = orderMapper.selectByMap(mapOrder);
         System.out.println(orders);
         DataVo dataVo = new DataVo("用户获取成功", 0,2, orders);
         return dataVo;
+    }
+
+    @Override
+    public DataVo<String> sendSaveMessage(String id,String openid,String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator, String note, String miscellaneous) {
+
+        //先进行 修改  根据ID修改
+        Order orderUp = new Order();
+        orderUp.setId(Integer.valueOf(id));
+        orderUp.setOpenId(openid);
+        orderUp.setName(name);
+        orderUp.setPhone(phone);
+        orderUp.setCommodity(commodity);//货物名称
+        orderUp.setReceiving(receiving);//收货地址
+        orderUp.setDelivery(delivery);//发货地址
+        orderUp.setPlate(plate);//车牌号
+        orderUp.setGrossWeight(grossWeight);//毛重
+        orderUp.setTareWeight(tareWeight);//皮重
+        orderUp.setMoisture(moisture);//a净重
+        orderUp.setImpurities(impurities);//水分
+        orderUp.setBulkDensity(bulkDensity);//杂质
+        orderUp.setMildew(mildew);//容重
+        orderUp.setUnitPrice(unitPrice);//霉变
+        orderUp.setAmount(amount);//单价
+        orderUp.setMoney(money);//金额
+        orderUp.setSkinTime(skinTime);//过皮时间
+        orderUp.setTime(time);//过毛时间
+        orderUp.setSerialNumber(serialNumber);//流水号
+        orderUp.setOperator(operator);//操作员
+        int a = orderMapper.updateById(orderUp);
+        System.out.println(a);
+        //在进行查询发送
+        //orderMapper.selectByMap();
+        return null;
     }
 
     @Override

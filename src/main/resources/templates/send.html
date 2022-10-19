@@ -204,14 +204,14 @@
             } = obj.data;
             SetKeyValue('form-name', name);
             SetKeyValue('form-phone', phone)
-            SetKeyValue('form-openId', openId, true)
+            SetKeyValue('form-openId', openId)
             SetKeyValue('form-commodity', commodity, true)
             SetKeyValue('form-receiving', receiving, true)
             SetKeyValue('form-grossWeight', grossWeight, true)
             SetKeyValue('form-mildew', mildew, true)
             SetKeyValue('form-moisture', moisture, true)
             SetKeyValue('form-money', money, true)
-            SetKeyValue('form-operator', operator, true)
+            SetKeyValue('form-operator', operator)
             SetKeyValue('form-plate', plate, true)
             SetKeyValue('form-skinTime', skinTime, true)
             SetKeyValue('form-tareWeight', tareWeight, true)
@@ -219,12 +219,10 @@
             SetKeyValue('form-unitPrice', unitPrice, true)
             SetKeyValue('form-amount', amount, true)
             SetKeyValue('form-impurities', impurities, true)
-            SetKeyValue('form-serialNumber', serialNumber, true)
+            SetKeyValue('form-serialNumber', serialNumber)
             SetKeyValue('form-bulkDensity', bulkDensity, true)
             SetKeyValue('form-delivery', delivery, true)
-
             SetKeyValue('form-id', id)
-
             layer.open({
                 type: 1,
                 content: layui.$('#idEditRecordForm'),
@@ -257,7 +255,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">openid</label>
         <div class="layui-input-block">
-            <input type="text" id="form-openId" name="phone" autocomplete="off" class="layui-input">
+            <input type="text" id="form-openId" name="openId" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -359,7 +357,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">金额</label>
         <div class="layui-input-block">
-            <input type="text" id="form-money" name="phone" lay-verify="required" placeholder="请输入金额"
+            <input type="text" id="form-money" name="money" lay-verify="required" placeholder="请输入金额"
                    autocomplete="off"
                    class="layui-input">
         </div>
@@ -367,7 +365,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">过皮时间</label>
         <div class="layui-input-block">
-            <input type="text" id="form-skinTime" name="phone" lay-verify="required" placeholder="请输入过皮时间"
+            <input type="text" id="form-skinTime" name="skinTime" lay-verify="required" placeholder="请输入过皮时间"
                    autocomplete="off"
                    class="layui-input">
         </div>
@@ -409,6 +407,7 @@
         const form = layui.form;
         //监听提交
         form.on('submit(formDemo)', function (data) {
+            console.log(data.field)
             layer.msg(JSON.stringify(data.field));
             return false;
         });

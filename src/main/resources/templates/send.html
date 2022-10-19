@@ -188,8 +188,8 @@
                 receiving,
                 delivery,
                 plate,
-                gross_weight='1',
-                tare_weight='1',
+                grossWeight='1',
+                tareWeight='1',
                 moisture,
                 impurities,
                 bulkDensity,
@@ -207,14 +207,14 @@
             SetKeyValue('form-openId', openId, true)
             SetKeyValue('form-commodity', commodity, true)
             SetKeyValue('form-receiving', receiving, true)
-            // SetKeyValue('form-gross_weight', gross_weight, true)
+            SetKeyValue('form-grossWeight', grossWeight, true)
             SetKeyValue('form-mildew', mildew, true)
             SetKeyValue('form-moisture', moisture, true)
             SetKeyValue('form-money', money, true)
             SetKeyValue('form-operator', operator, true)
             SetKeyValue('form-plate', plate, true)
             SetKeyValue('form-skinTime', skinTime, true)
-            // SetKeyValue('form-tare_weight', tare_weight, true)
+            SetKeyValue('form-tareWeight', tareWeight, true)
             SetKeyValue('form-time', time, true)
             SetKeyValue('form-unitPrice', unitPrice, true)
             SetKeyValue('form-amount', amount, true)
@@ -295,7 +295,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">毛重</label>
         <div class="layui-input-block">
-            <input type="text" id="form-grossWeight" name="gross_weight" lay-verify="required" placeholder="请输入毛重"
+            <input type="text" id="form-grossWeight" name="grossWeight" lay-verify="required" placeholder="请输入毛重"
                    autocomplete="off"
                    class="layui-input">
         </div>

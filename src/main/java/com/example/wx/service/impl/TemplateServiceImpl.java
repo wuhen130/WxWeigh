@@ -184,8 +184,8 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
         orderAll.setReceiving(receiving);//收货地址
         orderAll.setDelivery(delivery);//发货地址
         orderAll.setPlate(plate);//车牌号
-        orderAll.setGross_weight(grossWeight);//毛重
-        orderAll.setTare_weight(tareWeight);//皮重
+        orderAll.setGrossWeight(grossWeight);//毛重
+        orderAll.setTareWeight(tareWeight);//皮重
         orderAll.setMoisture(moisture);//a净重
         orderAll.setImpurities(impurities);//水分
         orderAll.setBulkDensity(bulkDensity);//杂质

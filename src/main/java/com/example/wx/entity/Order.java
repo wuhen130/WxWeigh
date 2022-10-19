@@ -24,9 +24,9 @@ public class Order {
     //车牌号码
     private String plate;
     //毛重
-    private String gross_weight;
+    private String grossWeight;
     //皮重
-    private String tare_weight;
+    private String tareWeight;
     //净重
     private String moisture;
     //水分

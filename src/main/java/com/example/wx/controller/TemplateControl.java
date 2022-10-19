@@ -180,7 +180,7 @@ public class TemplateControl {
     }
     @ResponseBody
     @PostMapping("/sendMessageTopopup")
-    public List<Order> sendMessageTopopup(String openid) {
+    public DataVo<List<Order>> sendMessageTopopup(String openid) {
 
         return iTemplateService.sendMessageTopopup(openid);
 

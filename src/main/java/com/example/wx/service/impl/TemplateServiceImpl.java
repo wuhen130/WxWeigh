@@ -206,7 +206,7 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
 
     //返回订单信息
     @Override
-    public List<Order> sendMessageTopopup(String openid) {
+    public DataVo<List<Order>> sendMessageTopopup(String openid) {
 
        /* QueryWrapper wrapper = new QueryWrapper();
 
@@ -220,7 +220,8 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
         mapOrder.put("open_id",openid);
         List<Order> orders = orderMapper.selectByMap(mapOrder);
         System.out.println(orders);
-        return orders;
+        DataVo dataVo = new DataVo("用户获取成功", 0,2, orders);
+        return dataVo;
     }
 
     @Override

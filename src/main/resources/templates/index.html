@@ -96,32 +96,7 @@
 <script src="../static/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
 <script>
-    //页面加载
-    const loadStart = layer.load();
-    //判断是否登录
-    layui.use(function () {
-            layui.$.ajax({
-                url: '/wx/template/isLogin', //提交接口
-                type: 'get',
-                success: function (res) {
-                    layer.close(loadStart);
-                    if (res.isLogin === '1' || res.userName) {
-                        //登陆成功显示列表
-                        document.getElementById('tableBox').style.display = 'block';
-                        document.getElementById('usernameShowID').textContent = res.userName;
-                    } else if (res.isLogin === '0') {
-                        //未登录显示登录页面
-                        document.getElementById('loginPageID').style.display = 'block';
-                        //登陆成功加载背景图片
-                        document.getElementById('homePageBody').style.backgroundImage = 'url(../static/image/background-image.jpeg)';
-                    }
-                },
-                error: function (mas, textStatus, errorThrown) {
-                    layer.msg("请求失败");
-                }
-            });
-        }
-    );
+    pageLoad();
     //table操作页面，删除、查看操作。
     layui.use('table', function () {
         const table = layui.table;
@@ -134,7 +109,7 @@
             const data = obj.data;
             if (obj.event === 'detail') {
                 layer.msg('ID：' + data.id + ' 的查看操作');
-                window.location.href = '/send?name=' + data.name;
+                window.location.href = '/send?openid=' + data.openid;
             } else if (obj.event === 'del') {
                 const {name = '', openid = '', phone = ''} = obj.data
                 const message = '真的删除用户' + '<label style="color: darkred">' + name + '</label>' + '吗？';
@@ -205,6 +180,9 @@
                         document.getElementById('tableBox').style.display = 'block';
                         //登陆成功背景图片改为孔
                         document.body.style.backgroundImage = '';
+                        //登录成功名字赋值
+                        document.getElementById('usernameShowID').textContent = res.userName;
+                        pageLoad();
                     } else if (res.state === '0') {
                         layer.msg('用户名或密码错误请重新输入', {icon: 5});
                     } else {
@@ -274,6 +252,35 @@
             layer.close(logoutConfirm);
         });
     };
+
+    //页面加载
+    function pageLoad(){
+        const loadStart = layer.load();
+        //判断是否登录
+        layui.use(function () {
+                layui.$.ajax({
+                    url: '/wx/template/isLogin', //提交接口
+                    type: 'get',
+                    success: function (res) {
+                        layer.close(loadStart);
+                        if (res.isLogin === '1' || res.userName) {
+                            //登陆成功显示列表
+                            document.getElementById('tableBox').style.display = 'block';
+                            document.getElementById('usernameShowID').textContent = res.userName;
+                        } else if (res.isLogin === '0') {
+                            //未登录显示登录页面
+                            document.getElementById('loginPageID').style.display = 'block';
+                            //登陆成功加载背景图片
+                            document.getElementById('homePageBody').style.backgroundImage = 'url(../static/image/background-image.jpeg)';
+                        }
+                    },
+                    error: function (mas, textStatus, errorThrown) {
+                        layer.msg("请求失败");
+                    }
+                });
+            }
+        );
+    }
 </script>
 
 </body>

@@ -49,7 +49,7 @@
     <tr>
         <th lay-data="{field:'name',fixed:'left'}">用户名</th>
         <th lay-data="{field:'id'}">ID</th>
-        <th lay-data="{field:'openid'}">openid</th>
+        <th lay-data="{field:'openId'}">openid</th>
         <th lay-data="{field:'phone'}">手机号</th>
         <th lay-data="{field:'commodity'}">货物名称</th>
         <th lay-data="{field:'receiving'}">收获地址</th>
@@ -98,6 +98,7 @@
                 }
             });
             const openid = GetQueryString('openid');
+            const name = GetQueryString('name');
             document.getElementById('idRecordName').innerText = name;
             layui.table.reload('idRecodeList', {
                 url: '/wx/template/sendMessageTopopup',
@@ -177,18 +178,18 @@
         const table = layui.table;
         let form = layui.form;
         table.on('tool(recordTable)', function (obj) {
-            console.log(obj);
+            console.log(obj.data);
             const {
                 name,
-                nickname,
                 phone,
-                openid,
+                openId,
+                id,
                 commodity,
                 receiving,
                 delivery,
                 plate,
-                grossWeight,
-                tareWeight,
+                gross_weight='1',
+                tare_weight='1',
                 moisture,
                 impurities,
                 bulkDensity,
@@ -202,8 +203,28 @@
                 operator
             } = obj.data;
             SetKeyValue('form-name', name);
-            SetKeyValue('form-nickname', nickname)
-            SetKeyValue('form-phone', phone, true)
+            SetKeyValue('form-phone', phone)
+            SetKeyValue('form-openId', openId, true)
+            SetKeyValue('form-commodity', commodity, true)
+            SetKeyValue('form-receiving', receiving, true)
+            // SetKeyValue('form-gross_weight', gross_weight, true)
+            SetKeyValue('form-mildew', mildew, true)
+            SetKeyValue('form-moisture', moisture, true)
+            SetKeyValue('form-money', money, true)
+            SetKeyValue('form-operator', operator, true)
+            SetKeyValue('form-plate', plate, true)
+            SetKeyValue('form-skinTime', skinTime, true)
+            // SetKeyValue('form-tare_weight', tare_weight, true)
+            SetKeyValue('form-time', time, true)
+            SetKeyValue('form-unitPrice', unitPrice, true)
+            SetKeyValue('form-amount', amount, true)
+            SetKeyValue('form-impurities', impurities, true)
+            SetKeyValue('form-serialNumber', serialNumber, true)
+            SetKeyValue('form-bulkDensity', bulkDensity, true)
+            SetKeyValue('form-delivery', delivery, true)
+
+            SetKeyValue('form-id', id)
+
             layer.open({
                 type: 1,
                 content: layui.$('#idEditRecordForm'),
@@ -212,6 +233,7 @@
     });
 
     function SetKeyValue(id, value, disabled) {
+        if (value == null) value = '';
         const input = document.getElementById(id);
         input.value = value;
         input.disabled = !disabled;
@@ -227,12 +249,6 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">昵称</label>
-        <div class="layui-input-block">
-            <input type="text" id="form-nickname" name="nickname" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
         <label class="layui-form-label">手机</label>
         <div class="layui-input-block">
             <input type="text" id="form-phone" name="phone" autocomplete="off" class="layui-input">
@@ -241,7 +257,13 @@
     <div class="layui-form-item">
         <label class="layui-form-label">openid</label>
         <div class="layui-input-block">
-            <input type="text" id="form-openid" name="phone" autocomplete="off" class="layui-input">
+            <input type="text" id="form-openId" name="phone" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">ID</label>
+        <div class="layui-input-block">
+            <input type="text" id="form-id" name="id" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -273,7 +295,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">毛重</label>
         <div class="layui-input-block">
-            <input type="text" id="form-grossWeight" name="grossWeight" lay-verify="required" placeholder="请输入毛重"
+            <input type="text" id="form-grossWeight" name="gross_weight" lay-verify="required" placeholder="请输入毛重"
                    autocomplete="off"
                    class="layui-input">
         </div>

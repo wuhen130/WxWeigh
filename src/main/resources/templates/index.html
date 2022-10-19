@@ -109,7 +109,7 @@
             const data = obj.data;
             if (obj.event === 'detail') {
                 layer.msg('ID：' + data.id + ' 的查看操作');
-                window.location.href = '/send?openid=' + data.openid;
+                window.location.href = '/send?openid=' + data.openid+'&name='+data.name;
             } else if (obj.event === 'del') {
                 const {name = '', openid = '', phone = ''} = obj.data
                 const message = '真的删除用户' + '<label style="color: darkred">' + name + '</label>' + '吗？';

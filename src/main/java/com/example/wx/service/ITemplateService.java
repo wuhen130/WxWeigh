@@ -24,5 +24,5 @@ public interface ITemplateService {
 
     DataVo<String>sendAcquireMessage(String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator,String note,String miscellaneous);
 
-    List<Order> sendMessageTopopup(String openid);
+    DataVo<List<Order>> sendMessageTopopup(String openid);
 }

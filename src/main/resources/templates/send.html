@@ -87,7 +87,7 @@
             const openid = GetQueryString('openid');
             document.getElementById('idRecordName').innerText = name;
             layui.table.reload('idRecodeList', {
-                url: '/sendMessageTopopup',
+                url: '/wx/template/sendMessageTopopup',
                 method: 'post',
                 page: false
                 , where: {openid} //设定异步数据接口的额外参数

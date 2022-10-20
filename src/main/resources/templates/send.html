@@ -160,12 +160,12 @@
             elem: '#searchDate',
             done: function (date) {
                 // 确定时间后，开始重新加载页面
-                const openid = GetQueryString('openid');
+                const openId = GetQueryString('openid');
                 layui.table.reload('idRecodeList', {
                     url: '/wx/template/getDateUserMessage',
                     method: 'get',
                     page: false
-                    , where: {openid, date} //设定异步数据接口的额外参数
+                    , where: {openId, date} //设定异步数据接口的额外参数
                 });
             }
         });

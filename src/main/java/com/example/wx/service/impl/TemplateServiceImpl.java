@@ -217,12 +217,12 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
     }
 
     @Override
-    public DataVo<String> sendSaveMessage(String id,String openid,String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator, String note, String miscellaneous) {
+    public DataVo<String> sendSaveMessage(String id,String openId,String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator, String note, String miscellaneous) {
 
         //先进行 修改  根据ID修改
         Order orderUp = new Order();
         orderUp.setId(Integer.valueOf(id));
-        orderUp.setOpenId(openid);
+        orderUp.setOpenId(openId);
         orderUp.setName(name);
         orderUp.setPhone(phone);
         orderUp.setCommodity(commodity);//货物名称
@@ -242,11 +242,34 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
         orderUp.setTime(time);//过毛时间
         orderUp.setSerialNumber(serialNumber);//流水号
         orderUp.setOperator(operator);//操作员
-        int a = orderMapper.updateById(orderUp);
-        System.out.println(a);
-        //在进行查询发送
-        //orderMapper.selectByMap();
+        int aUp = orderMapper.updateById(orderUp);
+        System.out.println(aUp);
+        if(aUp == 1){
+            //在进行查询发送
+            //orderMapper.selectByMap();
+            sendMessage(name, phone, commodity, receiving, delivery, plate, grossWeight, tareWeight,
+                    moisture, impurities, bulkDensity, mildew, unitPrice, amount, money, skinTime, time, serialNumber, operator,note,miscellaneous);
+        }
         return null;
+    }
+
+    @Override
+    public DataVo<List<Order>> getDateUserMessage(String openid, String date) {
+
+        /*LambdaQueryWrapper<User> lqw = new LambdaQueryWrapper<User>();
+        lqw.lt(User::getAge, 10).or().gt(User::getAge, 30);
+        List<User> userList = userDao.selectList(lqw);
+        HashMap<String,Object> mapOrder = new HashMap<>();
+        mapOrder.put("open_id",openid);
+        List<Order> orders = orderMapper.selectByMap(mapOrder);
+
+        */
+        LambdaQueryWrapper<Order> lqwOrder = new LambdaQueryWrapper<Order>();
+        lqwOrder.eq(Order::getOpenId,openid).eq(Order::getSkinTime,date);
+        List<Order> orders = orderMapper.selectList(lqwOrder);
+        System.out.println(orders);
+        DataVo dataVo = new DataVo("用户获取成功", 0,2, orders);
+        return dataVo;
     }
 
     @Override

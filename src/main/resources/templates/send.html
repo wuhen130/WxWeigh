@@ -66,7 +66,7 @@
         <th lay-data="{field:'serialNumber',width:138}">流水号</th>
         <th lay-data="{field:'operator',width:120}">操作员</th>
         <th lay-data="{field:'id'}">ID</th>
-        <th lay-data="{field:'openId'}">openid</th>
+        <th lay-data="{field:'openId'}">openId</th>
         <th lay-data="{fixed: 'right', width:100, align:'center', toolbar: '#barDemo'}">操作</th>
     </tr>
     </thead>
@@ -158,9 +158,15 @@
         //日期范围
         layui.laydate.render({
             elem: '#searchDate',
-            done: function (value) {
+            done: function (date) {
                 // 确定时间后，开始重新加载页面
-                console.log('value========', value);
+                const openid = GetQueryString('openid');
+                layui.table.reload('idRecodeList', {
+                    url: '/wx/template/getDateUserMessage',
+                    method: 'get',
+                    page: false
+                    , where: {openid, date} //设定异步数据接口的额外参数
+                });
             }
         });
         const form = layui.form;
@@ -176,7 +182,6 @@
     layui.use('table', function () {
         const table = layui.table;
         table.on('tool(recordTable)', function (obj) {
-            console.log(obj.data);
             const {
                 name,
                 phone,

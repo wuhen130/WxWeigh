@@ -73,11 +73,17 @@ public class TemplateControl {
 
     @ResponseBody
     @PostMapping("/sendSaveMessage")
-    public DataVo<String> sendSaveMessage(String id,String openid,String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator,String note,String miscellaneous) {
+    public DataVo<String> sendSaveMessage(String id,String openId,String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator,String note,String miscellaneous) {
 
-        return  iTemplateService.sendSaveMessage(id,openid,name, phone, commodity, receiving, delivery, plate, grossWeight, tareWeight,
+        return  iTemplateService.sendSaveMessage(id,openId,name, phone, commodity, receiving, delivery, plate, grossWeight, tareWeight,
                 moisture, impurities, bulkDensity, mildew, unitPrice, amount, money, skinTime, time, serialNumber, operator,note,miscellaneous);
 
+    }
+
+    @GetMapping("/getDateUserMessage")
+    public DataVo<List<Order>> getDateUserMessage(String openId, String date) {
+
+        return iTemplateService.getDateUserMessage(openId, date);
     }
 
     @GetMapping("/getUser")

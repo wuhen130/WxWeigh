@@ -177,7 +177,7 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
         //1.拿到所有的值
         Order orderAll = new Order();
         //orderAll.setId(2);
-        orderAll.setOpenId("oEq7rw-udo5FS6D9E3H-H0C3-6S8");
+        orderAll.setOpenId("oEq7rw9SrhtZzEcY3gm9xa_T6VN8");
         orderAll.setName(name);
         orderAll.setPhone(phone);
         orderAll.setCommodity(commodity);//货物名称
@@ -254,18 +254,20 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
     }
 
     @Override
-    public DataVo<List<Order>> getDateUserMessage(String openid, String date) {
+    public DataVo<List<Order>> getDateUserMessage(String openId, String date) {
 
         /*LambdaQueryWrapper<User> lqw = new LambdaQueryWrapper<User>();
         lqw.lt(User::getAge, 10).or().gt(User::getAge, 30);
-        List<User> userList = userDao.selectList(lqw);
-        HashMap<String,Object> mapOrder = new HashMap<>();
+        List<User> userList = userDao.selectList(lqw);*/
+        /*HashMap<String,Object> mapOrder = new HashMap<>();
         mapOrder.put("open_id",openid);
-        List<Order> orders = orderMapper.selectByMap(mapOrder);
+        mapOrder.put("skin_time",date);
+        List<Order> orders = orderMapper.selectByMap(mapOrder);*/
 
-        */
-        LambdaQueryWrapper<Order> lqwOrder = new LambdaQueryWrapper<Order>();
-        lqwOrder.eq(Order::getOpenId,openid).eq(Order::getSkinTime,date);
+
+        LambdaQueryWrapper<Order> lqwOrder = new LambdaQueryWrapper<>();
+        //lqwOrder.eq(Order::getOpenId,openId).eq(Order::getSkinTime,date);
+        lqwOrder.eq(Order::getSkinTime,date).eq(Order::getOpenId,openId);
         List<Order> orders = orderMapper.selectList(lqwOrder);
         System.out.println(orders);
         DataVo dataVo = new DataVo("用户获取成功", 0,2, orders);

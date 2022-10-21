@@ -65,6 +65,7 @@
         <th lay-data="{field:'delivery',width:180}">发货地址</th>
         <th lay-data="{field:'serialNumber',width:138}">流水号</th>
         <th lay-data="{field:'operator',width:120}">操作员</th>
+        <th lay-data="{field:'operationDate',width:138}">操作时间</th>
         <th lay-data="{field:'id'}">ID</th>
         <th lay-data="{field:'openId'}">openId</th>
         <th lay-data="{fixed: 'right', width:100, align:'center', toolbar: '#barDemo'}">操作</th>
@@ -208,14 +209,14 @@
             SetKeyValue('form-name', name);
             SetKeyValue('form-phone', phone)
             SetKeyValue('form-openId', openId)
-            SetKeyValue('form-commodity', commodity, true)
-            SetKeyValue('form-receiving', receiving, true)
+            SetKeyValue('form-commodity', commodity)
+            SetKeyValue('form-receiving', receiving)
             SetKeyValue('form-grossWeight', grossWeight, true)
             SetKeyValue('form-mildew', mildew, true)
             SetKeyValue('form-moisture', moisture, true)
             SetKeyValue('form-money', money, true)
             SetKeyValue('form-operator', operator)
-            SetKeyValue('form-plate', plate, true)
+            SetKeyValue('form-plate', plate)
             SetKeyValue('form-skinTime', skinTime)
             SetKeyValue('form-tareWeight', tareWeight, true)
             SetKeyValue('form-time', time)
@@ -224,7 +225,8 @@
             SetKeyValue('form-impurities', impurities, true)
             SetKeyValue('form-serialNumber', serialNumber)
             SetKeyValue('form-bulkDensity', bulkDensity, true)
-            SetKeyValue('form-delivery', delivery, true)
+            SetKeyValue('form-note', '', true)
+            SetKeyValue('form-delivery', delivery)
             SetKeyValue('form-id', id)
             layer.open({
                 type: 1,
@@ -398,7 +400,7 @@
                    class="layui-input">
         </div>
     </div>
-    <div class="layui-form-item layui-hide">
+    <div class="layui-form-item">
         <label class="layui-form-label">备注</label>
         <div class="layui-input-block">
             <input type="text" id="form-note" name="note"
@@ -431,7 +433,7 @@
             layui.$.ajax({
                 url: '/wx/template/sendSaveMessage', //提交接口
                 type: 'post',
-                data: data.field,
+                data: {...data.field},
                 success: function (res) {
                     layer.closeAll(function () {
                         layer.msg('信息发送成功。', {icon: 1}, function () {
@@ -449,6 +451,23 @@
             return false;
         });
     });
+
+
+    function getCurrentTime() {
+        var date = new Date();//当前时间
+        var year = date.getFullYear() //返回指定日期的年份
+        var month = repair(date.getMonth() + 1);//月
+        var day = repair(date.getDate());//日
+        var hour = repair(date.getHours());//时
+        var minute = repair(date.getMinutes());//分
+        var second = repair(date.getSeconds());//秒
+
+        //当前时间
+        var curTime = year + "-" + month + "-" + day
+            + " " + hour + ":" + minute + ":" + second;
+        return curTime;
+    }
+
 </script>
 </body>
 </html>

@@ -171,7 +171,7 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
      * @param operator     操作员       c
      * @return
      */
-
+    //新增用户订单信息
     @Override
     public DataVo<String> sendAcquireMessage(String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator, String note, String miscellaneous) {
         //1.拿到所有的值

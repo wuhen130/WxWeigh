@@ -28,4 +28,9 @@ public class UserController {
         return "send";
     }
 
+    @RequestMapping("/loginManager")// 登录管理界面
+    public String loginManager(){
+        return "loginManager";
+    }
+
 }

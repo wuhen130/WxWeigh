@@ -181,7 +181,8 @@
                         //登陆成功背景图片改为孔
                         document.body.style.backgroundImage = '';
                         //登录成功名字赋值
-                        document.getElementById('usernameShowID').textContent = res.userName;
+                        localStorage.setItem('username',res.name);
+                        document.getElementById('usernameShowID').textContent = res.name;
                         pageLoad();
                     } else if (res.state === '0') {
                         layer.msg('用户名或密码错误请重新输入', {icon: 5});
@@ -257,7 +258,6 @@
                         if (res.isLogin === '1' || res.userName) {
                             //登陆成功显示列表
                             document.getElementById('tableBox').style.display = 'block';
-                            document.getElementById('usernameShowID').textContent = res.userName;
                         } else if (res.isLogin === '0') {
                             //未登录显示登录页面
                             document.getElementById('loginPageID').style.display = 'block';

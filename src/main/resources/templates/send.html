@@ -88,7 +88,7 @@
                     layer.close(loadStart);
                     if (res.isLogin === '1' || res.userName) {
                         //登陆成功显示列表
-                        document.getElementById('usernameShowID').textContent = res.userName;
+                        document.getElementById('usernameShowID').textContent = localStorage.getItem('username');
                     } else if (res.isLogin === '0') {
                         window.location.href = '/';
                     }

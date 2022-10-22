@@ -115,12 +115,18 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
 
 
         userInfoList = mapper.selectOne(wrapper);
+
         if (userInfoList == null) {
             dataVo.setCode(500);
             dataVo.setMsg("数据不存在，请录入信息");
             return dataVo;
         }
 
+        if(userInfoList.getOpenid() != null && miscellaneous != "0"){
+
+            sendAcquireMessage(userInfoList.getOpenid(),name, phone, commodity, receiving, delivery, plate, grossWeight, tareWeight,moisture, impurities, bulkDensity, mildew, unitPrice, amount, money, skinTime, time, serialNumber, operator,note,miscellaneous);
+
+        }
 
         String openid = userInfoList.getOpenid();
 
@@ -138,7 +144,7 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
         Code code = JSON.toJavaObject(jsonObject, Code.class);
         log.info(s.toString());
 
-        if (code.getErrmsg() != "ok") {
+        if (!code.getErrmsg().equals("ok")) {
             dataVo.setMsg(code.getErrmsg());
             dataVo.setCode(code.getErrcode());
             return dataVo;
@@ -173,11 +179,11 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
      */
     //新增用户订单信息
     @Override
-    public DataVo<String> sendAcquireMessage(String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator, String note, String miscellaneous) {
+    public DataVo<String> sendAcquireMessage(String openId,String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator, String note, String miscellaneous) {
         //1.拿到所有的值
         Order orderAll = new Order();
         //orderAll.setId(2);
-        orderAll.setOpenId("oEq7rw9SrhtZzEcY3gm9xa_T6VN8");
+        orderAll.setOpenId(openId);
         orderAll.setName(name);
         orderAll.setPhone(phone);
         orderAll.setCommodity(commodity);//货物名称
@@ -215,9 +221,9 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
         DataVo dataVo = new DataVo("用户获取成功", 0,2, orders);
         return dataVo;
     }
-
+    //修改并调用发送接口
     @Override
-    public DataVo<String> sendSaveMessage(String id,String openId,String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator, String note, String miscellaneous) {
+    public DataVo<String> sendSaveMessage(String id,String openId,String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator, String note, String miscellaneous,String operationDate) {
 
         //先进行 修改  根据ID修改
         Order orderUp = new Order();
@@ -242,13 +248,14 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
         orderUp.setTime(time);//过毛时间
         orderUp.setSerialNumber(serialNumber);//流水号
         orderUp.setOperator(operator);//操作员
+        orderUp.setOperationDate(operationDate);
         int aUp = orderMapper.updateById(orderUp);
         System.out.println(aUp);
         if(aUp == 1){
             //在进行查询发送
             //orderMapper.selectByMap();
             sendMessage(name, phone, commodity, receiving, delivery, plate, grossWeight, tareWeight,
-                    moisture, impurities, bulkDensity, mildew, unitPrice, amount, money, skinTime, time, serialNumber, operator,note,miscellaneous);
+                    moisture, impurities, bulkDensity, mildew, unitPrice, amount, money, skinTime, time, serialNumber, operator,note,"0");
         }
         return null;
     }
@@ -256,22 +263,13 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
     @Override
     public DataVo<List<Order>> getDateUserMessage(String openId, String date) {
 
-        /*LambdaQueryWrapper<User> lqw = new LambdaQueryWrapper<User>();
-        lqw.lt(User::getAge, 10).or().gt(User::getAge, 30);
-        List<User> userList = userDao.selectList(lqw);*/
-        /*HashMap<String,Object> mapOrder = new HashMap<>();
-        mapOrder.put("open_id",openid);
-        mapOrder.put("skin_time",date);
-        List<Order> orders = orderMapper.selectByMap(mapOrder);*/
-
-
         LambdaQueryWrapper<Order> lqwOrder = new LambdaQueryWrapper<>();
-        //lqwOrder.eq(Order::getOpenId,openId).eq(Order::getSkinTime,date);
         lqwOrder.eq(Order::getSkinTime,date).eq(Order::getOpenId,openId);
         List<Order> orders = orderMapper.selectList(lqwOrder);
         System.out.println(orders);
         DataVo dataVo = new DataVo("用户获取成功", 0,2, orders);
         return dataVo;
+
     }
 
     @Override
@@ -410,6 +408,7 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
 
         }
         mapper.delete(wrapper);
+        //删除用户后判断是否删除成功，成功后删除相应订单信息
         /*userInfoList.setPhone(phone);
         userInfoList.setName(name);*/
         dataVo.setMsg("1");

@@ -57,11 +57,11 @@ public class TemplateControl {
     }
     @ResponseBody
     @PostMapping("/sendAcquireMessage")
-    public DataVo<String> sendAcquireMessage(String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator,String note,String miscellaneous) {
+    public DataVo<String> sendAcquireMessage(String openId,String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator,String note,String miscellaneous) {
         //调用send接口
         //伪造数据，进行所有值的获取
-        return  iTemplateService.sendAcquireMessage("颜虎", "13622129921", "货物名称玉米", "收货单位测试部", "发货单位测试部", "鲁BAA123", "毛重2000", "皮重1000",
-                "净重1000", "水分1.2", "2.2", "560", "3.3", "1.4", "2999", "2022-10-17", "2022-10-17", "2022101802050", "操作员","备注","其他");
+        return  iTemplateService.sendAcquireMessage(openId,name, phone, commodity, receiving, delivery, plate, grossWeight, tareWeight,
+                moisture, impurities, bulkDensity, mildew, unitPrice, amount, money, skinTime, time, serialNumber, operator,note,miscellaneous);
 
 //        {{first.DATA}}
 //        货物名称：{{keyword1.DATA}}
@@ -73,10 +73,10 @@ public class TemplateControl {
 
     @ResponseBody
     @PostMapping("/sendSaveMessage")
-    public DataVo<String> sendSaveMessage(String id,String openId,String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator,String note,String miscellaneous) {
+    public DataVo<String> sendSaveMessage(String id,String openId,String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator,String note,String miscellaneous,String operationDate) {
 
         return  iTemplateService.sendSaveMessage(id,openId,name, phone, commodity, receiving, delivery, plate, grossWeight, tareWeight,
-                moisture, impurities, bulkDensity, mildew, unitPrice, amount, money, skinTime, time, serialNumber, operator,note,miscellaneous);
+                moisture, impurities, bulkDensity, mildew, unitPrice, amount, money, skinTime, time, serialNumber, operator,note,miscellaneous,operationDate);
 
     }
 
@@ -98,18 +98,10 @@ public class TemplateControl {
         return iTemplateService.getOneUser(name);
     }
 
-    /*//创建一个Cookie对象
-    Cookie cookie = new Cookie("text","zhangsi");
-    @GetMapping("/get")
-    public DataVo<List<UserInfoList>> getUser(Integer page, Integer limit) {
-
-        return iTemplateService.getUser(page, limit);
-    }*/
     @PostMapping("/postName")
     public DataVo setName(String openid, String name, String phone) {
 
         return iTemplateService.postNameIsPhone(openid, name, phone);
-
 
     }
 
@@ -120,10 +112,10 @@ public class TemplateControl {
 
         String str = HttpRequest.sendGet("https://api.weixin.qq.com/sns/oauth2/access_token", "appid=wx8ac6ce191e5e5537&secret=ee48e6ff750fdad237ef04b75c6d0c74&code=" + code + "&grant_type=authorization_code");
         JSONObject jsonObject = new JSONObject();
-
         return jsonObject.parse(str);
 
     }
+
     @ResponseBody
     @GetMapping("/isLogin")
     public Object isLogin(HttpServletRequest request) {

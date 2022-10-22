@@ -49,7 +49,8 @@ public class Order {
     private String serialNumber;
     //操作员
     private String operator;
+    //操作时间
+    private String operationDate;
 
-    
 
 }

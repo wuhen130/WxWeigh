@@ -237,18 +237,9 @@
     }
     //退出登录
     const logout = function () {
-        const logoutConfirm = layer.confirm('确认推出登录？', {
+        const logoutConfirm = layer.confirm('功能开发者中，清耐心等待', {
             btn: ['确认', '取消'] //可以无限个按
         }, function () {
-            //清空cookie
-            const keys = document.cookie.match(/[^ =;]+(?=\=)/g);
-            if (keys) {
-                for (let i = keys.length; i--;) {
-                    document.cookie = keys[i] + '=0;path=/;expires=' + new Date(0).toUTCString();//清除当前域名下的,例如：m.kevis.com
-                    document.cookie = keys[i] + '=0;path=/;domain=' + document.domain + ';expires=' + new Date(0).toUTCString();//清除当前域名下的，例如 .m.kevis.com
-                    document.cookie = keys[i] + '=0;path=/;domain=kevis.com;expires=' + new Date(0).toUTCString();//清除一级域名下的或指定的，例如 .kevis.com
-                }
-            }
             layer.close(logoutConfirm);
         });
     };

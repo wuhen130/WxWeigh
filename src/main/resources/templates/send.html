@@ -243,6 +243,15 @@
         if (disabled) input.style.borderColor = 'rebeccapurple';
     }
 
+    //退出登录
+    const logout = function () {
+        const logoutConfirm = layer.confirm('功能开发者中，清耐心等待', {
+            btn: ['确认', '取消'] //可以无限个按
+        }, function () {
+            layer.close(logoutConfirm);
+        });
+    };
+
 </script>
 <form class="layui-form" action="" id="idEditRecordForm" lay-filter="idEditRecordForm"
       style="display: none;width: 400px;margin-top: 10px">
@@ -455,7 +464,7 @@
                 success: function (res) {
                     layer.closeAll(function () {
                         layer.msg('信息发送成功。', {icon: 1}, function () {
-                            // window.document.location.reload();
+                            window.document.location.reload();
                         });
                     })
                 },

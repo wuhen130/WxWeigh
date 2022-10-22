@@ -3,14 +3,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/wx?useUnicode=true&useSSL=false&characterEncoding=utf8
-    username: root
-    password: 123456
-
-  spring:
-    thymeleaf:
-      prefix:
-        classpath: /templates   # 访问template下的html文件需要配置模板，映射
-      cache: false              # 开发时关闭缓存,不然没法看到实时页面
+    username: rootr
+    password: gps@gps123
 
   mvc:
     view:
@@ -26,8 +20,8 @@ mybatis-plus:
 server:
   port: 443
   ssl:
-    key-store: classpath:8165766_zcsyuansheng.xyz.pfx
-    key-store-password: aucH052N
+    key-store: classpath:5937354_www.zcsyuansheng.xyz.pfx
+    key-store-password: L0J9X9pj
     key-store-type: PKCS12
   servlet:
     encoding:

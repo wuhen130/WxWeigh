@@ -1,0 +1,278 @@
+git<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>称重后台管理端</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="../static/css/layui.css" media="all">
+  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body id="homePageBody">
+<div style="margin-top:10%;display:none" id="loginPageID">
+  <!-- 示例-970 -->
+  <div class="layui-row layui-col-space15" style="margin: 0">
+    <div class="layui-col-md6"></div>
+    <div class="layui-col-md5">
+      <div class="layui-panel">
+        <div style="padding: 30px;">
+          <blockquote class="layui-elem-quote">欢迎登陆</blockquote>
+          <form class="layui-form" action="">
+            <div class="layui-form-item">
+              <label class="layui-form-label">用户名</label>
+              <div class="layui-input-block">
+                <input type="text" name="username" required lay-verify="required" placeholder="请输入用户名"
+                       autocomplete="off"
+                       class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">密码框</label>
+              <div class="layui-input-block">
+                <input type="password" name="password" required lay-verify="required"
+                       placeholder="请输入密码"
+                       autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="loginBtn">登陆</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="layui-col-md1"></div>
+  </div>
+</div>
+<div style="display: none" id="tableBox">
+  <div style="display: flex;">
+    <ul class="layui-nav" style="width:100%">
+      <li class="layui-nav-item" style="float: right">
+        <a href="javascript:;" onclick="addLayuiShow()"><img src="//t.cn/RCzsdCq" class="layui-nav-img">
+          <lable style="font-size: 18px" id="usernameShowID"></lable>
+        </a>
+        <dl class="layui-nav-child" id="IDlayuiNavChild" style="z-index: 10000">
+          <dd><a href="javascript:;" onclick="logout()">退出登录</a></dd>
+        </dl>
+      </li>
+    </ul>
+  </div>
+  <form class="layui-form" action="" style="margin-bottom: 0;margin-top: 10px" ,>
+    <div class="layui-form-item">
+      <label class="layui-form-label">姓名搜索</label>
+      <div class="layui-input-inline">
+        <input type="text" name="name" required lay-verify="name" placeholder="请输入姓名"
+               autocomplete="off" class="layui-input">
+      </div>
+      <button class="layui-btn" lay-submit lay-filter="searchBtn">搜索</button>
+      <button class="layui-btn" lay-submint lay-filter="searchBtnClear">清空搜索</button>
+    </div>
+  </form>
+  <table class="layui-table" lay-data="{url:'wx/template/getUser', page:true, id:'idUserList'}" style="display: none"
+         lay-filter="demo">
+    <thead>
+    <tr>
+      <th lay-data="{field:'openid'}">ID</th>
+      <th lay-data="{field:'nickname'}">微信名</th>
+      <th lay-data="{field:'name', width:120}">用户名</th>
+      <th lay-data="{field:'city', width:100}">城市</th>
+      <th lay-data="{field:'phone', width:118}">手机号</th>
+      <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}">操作</th>
+    </tr>
+    </thead>
+  </table>
+
+</div>
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+
+<script src="../static/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
+<script>
+  pageLoad();
+  //table操作页面，删除、查看操作。
+  layui.use('table', function () {
+    const table = layui.table;
+    //监听表格复选框选择
+    table.on('checkbox(demo)', function (obj) {
+      console.log(obj)
+    });
+    //监听工具条
+    table.on('tool(demo)', function (obj) {
+      const data = obj.data;
+      if (obj.event === 'detail') {
+        layer.msg('ID：' + data.id + ' 的查看操作');
+        window.location.href = '/send?openid=' + data.openid+'&name='+data.name;
+      } else if (obj.event === 'del') {
+        const {name = '', openid = '', phone = ''} = obj.data
+        const message = '真的删除用户' + '<label style="color: darkred">' + name + '</label>' + '吗？';
+        layer.confirm(message, function (index) {
+          console.log('obj=', obj.data);
+          const {name = '', openid = '', phone = ''} = obj.data
+          const delLoading = layer.load(1);
+          layui.$.ajax({
+            url: '/wx/template/deleteUser', //提交接口
+            type: 'post',
+            data: {name, openid, phone},
+            success: function (res) {
+              layer.close(delLoading);
+              layer.close(index);
+              obj.del();
+              console.log(res);
+            },
+            error: function (mas, textStatus, errorThrown) {
+              layer.msg("请求失败");
+              layer.close(delLoading);
+              layer.close(index);
+            }
+          });
+        });
+      }
+    });
+
+    const $ = layui.$, active = {
+      getCheckData: function () { //获取选中数据
+        const checkStatus = table.checkStatus('idUserList')
+                , data = checkStatus.data;
+        layer.alert(JSON.stringify(data));
+      }
+      , getCheckLength: function () { //获取选中数目
+        const checkStatus = table.checkStatus('idUserList')
+                , data = checkStatus.data;
+        layer.msg('选中了：' + data.length + ' 个');
+      }
+      , isAll: function () { //验证是否全选
+        const checkStatus = table.checkStatus('idUserList');
+        layer.msg(checkStatus.isAll ? '全选' : '未全选')
+      }
+    };
+
+    $('.demoTable .layui-btn').on('click', function () {
+      const type = $(this).data('type');
+      active[type] ? active[type].call(this) : '';
+    });
+
+  });
+  //登录表达提交
+  layui.use('form', function () {
+    const form = layui.form;
+    //监听登录提交
+    form.on('submit(loginBtn)', function (data) {
+      const index = layer.load(1); //点击加载
+      layui.$.ajax({
+        url: '/wx/template/loginManage', //提交接口
+        type: 'post',
+        data: {'name': data.field.username, 'password': data.field.password},
+        success: function (res) {
+          layer.close(index);
+          if (res.state === '1') {
+            document.getElementById('tableBox').style.display = 'block';
+            //登陆成功隐藏登陆页面
+            document.getElementById('loginPageID').style.display = 'none';
+            //登陆成功显示列表
+            document.getElementById('tableBox').style.display = 'block';
+            //登陆成功背景图片改为孔
+            document.body.style.backgroundImage = '';
+            //登录成功名字赋值
+            localStorage.setItem('username',res.name);
+            document.getElementById('usernameShowID').textContent = res.name;
+            pageLoad();
+          } else if (res.state === '0') {
+            layer.msg('用户名或密码错误请重新输入', {icon: 5});
+          } else {
+            layer.open({
+              title: '系统维护中'
+              , content: '请联系管理人员'
+            });
+          }
+        },
+        error: function (mas, textStatus, errorThrown) {
+          layer.msg("请求失败");
+          layer.close(index);
+        }
+      });
+      return false;
+    });
+    //监听搜索提交
+    form.on('submit(searchBtn)', function (data) {
+      layui.table.reload('idUserList', {
+        url: '/wx/template/getOneUser'
+        , where: {name: data.field.name} //设定异步数据接口的额外参数
+      });
+      return false;
+    });
+    form.on('submit(searchBtnClear)', function (data) {
+      window.location.href = '/';
+    });
+    //form表单校验
+    form.verify({
+      name: function (value, item) { //value：表单的值、item：表单的DOM对象
+        if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
+          return '用户名不能有特殊字符';
+        }
+        if (/(^\_)|(\__)|(\_+$)/.test(value)) {
+          return '用户名首尾不能出现下划线\'_\'';
+        }
+        if (/^\d+\d+\d$/.test(value)) {
+          return '用户名不能全为数字';
+        }
+      }
+    });
+  });
+  //顶部导航栏
+  const addLayuiShow = function () {
+    const classList = document.getElementById('IDlayuiNavChild').classList;
+    if (classList.contains('layui-show')) {
+      document.getElementById('IDlayuiNavChild').classList.remove('layui-show');
+    } else {
+      document.getElementById('IDlayuiNavChild').classList.add('layui-show');
+    }
+
+  }
+  //退出登录
+  const logout = function () {
+    const logoutConfirm = layer.confirm('功能开发者中，清耐心等待', {
+      btn: ['确认', '取消'] //可以无限个按
+    }, function () {
+      layer.close(logoutConfirm);
+    });
+  };
+
+  //页面加载
+  function pageLoad(){
+    const loadStart = layer.load();
+    //判断是否登录
+    layui.use(function () {
+              layui.$.ajax({
+                url: '/wx/template/isLogin', //提交接口
+                type: 'get',
+                success: function (res) {
+                  layer.close(loadStart);
+                  if (res.isLogin === '1' || res.userName) {
+                    //登陆成功显示列表
+                    document.getElementById('tableBox').style.display = 'block';
+                  } else if (res.isLogin === '0') {
+                    //未登录显示登录页面
+                    document.getElementById('loginPageID').style.display = 'block';
+                    //登陆成功加载背景图片
+                    document.getElementById('homePageBody').style.backgroundImage = 'url(../static/image/background-image.jpeg)';
+                  }
+                },
+                error: function (mas, textStatus, errorThrown) {
+                  layer.msg("请求失败");
+                }
+              });
+            }
+    );
+  }
+</script>
+
+</body>
+</html>

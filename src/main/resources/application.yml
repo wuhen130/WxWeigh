@@ -20,9 +20,11 @@ mybatis-plus:
 server:
   port: 443
   ssl:
-    key-store: classpath:5937354_www.zcsyuansheng.xyz.pfx
-    key-store-password: L0J9X9pj
+    key-store: classpath:8165766_zcsyuansheng.xyz.pfx
+    key-store-password: aucH052N
     key-store-type: PKCS12
   servlet:
     encoding:
       charset: UTF-8
+
+

@@ -9,25 +9,16 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.wx.entity.*;
 import com.example.wx.entity.template.*;
-import com.example.wx.mapper.LoginUpMapper;
-import com.example.wx.mapper.MessageMapper;
-import com.example.wx.mapper.OrderMapper;
-import com.example.wx.mapper.UserInfoMapper;
+import com.example.wx.mapper.*;
 import com.example.wx.service.ITemplateService;
 import com.example.wx.util.HttpRequest;
 import com.example.wx.vo.DataVo;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 @Slf4j
@@ -72,7 +63,6 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
         //获取token
         String token = HttpRequest.sendGet("https://api.weixin.qq.com/cgi-bin/token", "grant_type=client_credential&appid=wx8ac6ce191e5e5537&secret=ee48e6ff750fdad237ef04b75c6d0c74");
         DataVo<String> dataVo = new DataVo<>();
-
 
         JSONObject tokenJson = JSONObject.parseObject(token);
         ToKens tokens = JSON.toJavaObject(tokenJson, ToKens.class);
@@ -182,7 +172,14 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
     public DataVo<String> sendAcquireMessage(String openId,String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator, String note, String miscellaneous) {
         //1.拿到所有的值
         Order orderAll = new Order();
-        //orderAll.setId(2);
+        //SELECT MAX(id) FROM `order`
+        Integer maxId = orderMapper.selectMaxIdMapper();
+//        if(maxId != null){
+//            orderAll.setId(maxId+1);
+//        }else {
+//
+//        }
+        orderAll.setId(maxId+1);
         orderAll.setOpenId(openId);
         orderAll.setName(name);
         orderAll.setPhone(phone);
@@ -203,9 +200,16 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
         orderAll.setTime(time);//过毛时间
         orderAll.setSerialNumber(serialNumber);//流水号
         orderAll.setOperator(operator);//操作员
-        System.out.printf(orderAll.getName());
+
+        Date date = new Date();
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        System.out.println(dateFormat.format(date));
+
+        orderAll.setOperationDate(dateFormat.format(date));
+//        System.out.printf(orderAll.getName());
         //2.进行插入
-        orderMapper.insert(orderAll);
+        int a = orderMapper.insert(orderAll);
+        System.out.printf(String.valueOf(a));
 
         return null;
     }

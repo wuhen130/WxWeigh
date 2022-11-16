@@ -18,6 +18,9 @@ import java.util.List;
  */
 public interface OrderMapper extends BaseMapper<Order> {
 
-    @Select("SELECT * FROM order WHERE #{id}")
-     Order SelectOnes(@Param("id") String id);
+//    @Select("SELECT * FROM order WHERE #{id}")
+//     Order SelectOnes(@Param("id") String id);
+
+    @Select("SELECT MAX(id) FROM `order`")
+    Integer selectMaxIdMapper();
 }

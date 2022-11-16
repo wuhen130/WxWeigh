@@ -46,6 +46,10 @@ public class TemplateControl {
     @PostMapping("/send")
     public DataVo<String> send(String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator,String note,String miscellaneous) {
 
+        /*return iTemplateService.sendMessage("李倩", "18654700835", "玉米", "收货单位", "发货单位", "鲁A12345", "毛重100000", "皮重2000",
+                "净重98000", "1.1", "1.2", "1.3", "1.5", "1.6", "50000", "2022-11-14 09:58:12", "2022-11-14 10:58:12", "1234554321", "操作员","备注","1");
+*/
+
         return iTemplateService.sendMessage(name, phone, commodity, receiving, delivery, plate, grossWeight, tareWeight,
                 moisture, impurities, bulkDensity, mildew, unitPrice, amount, money, skinTime, time, serialNumber, operator,note,miscellaneous);
 //        {{first.DATA}}

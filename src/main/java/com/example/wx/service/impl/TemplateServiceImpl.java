@@ -180,26 +180,7 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
 //
 //        }
         orderAll.setId(maxId+1);
-        orderAll.setOpenId(openId);
-        orderAll.setName(name);
-        orderAll.setPhone(phone);
-        orderAll.setCommodity(commodity);//货物名称
-        orderAll.setReceiving(receiving);//收货地址
-        orderAll.setDelivery(delivery);//发货地址
-        orderAll.setPlate(plate);//车牌号
-        orderAll.setGrossWeight(grossWeight);//毛重
-        orderAll.setTareWeight(tareWeight);//皮重
-        orderAll.setMoisture(moisture);//a净重
-        orderAll.setImpurities(impurities);//水分
-        orderAll.setBulkDensity(bulkDensity);//杂质
-        orderAll.setMildew(mildew);//容重
-        orderAll.setUnitPrice(unitPrice);//霉变
-        orderAll.setAmount(amount);//单价
-        orderAll.setMoney(money);//金额
-        orderAll.setSkinTime(skinTime);//过皮时间
-        orderAll.setTime(time);//过毛时间
-        orderAll.setSerialNumber(serialNumber);//流水号
-        orderAll.setOperator(operator);//操作员
+        basicsMessage(openId, name, phone, commodity, receiving, delivery, plate, grossWeight, tareWeight, moisture, impurities, bulkDensity, mildew, unitPrice, amount, money, skinTime, time, serialNumber, operator, orderAll);
 
         Date date = new Date();
         SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -232,6 +213,20 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
         //先进行 修改  根据ID修改
         Order orderUp = new Order();
         orderUp.setId(Integer.valueOf(id));
+        basicsMessage(openId, name, phone, commodity, receiving, delivery, plate, grossWeight, tareWeight, moisture, impurities, bulkDensity, mildew, unitPrice, amount, money, skinTime, time, serialNumber, operator, orderUp);
+        orderUp.setOperationDate(operationDate);
+        int aUp = orderMapper.updateById(orderUp);
+        System.out.println(aUp);
+        if(aUp == 1){
+            //在进行查询发送
+            //orderMapper.selectByMap();
+            sendMessage(name, phone, commodity, receiving, delivery, plate, grossWeight, tareWeight,
+                    moisture, impurities, bulkDensity, mildew, unitPrice, amount, money, skinTime, time, serialNumber, operator,note,"0");
+        }
+        return null;
+    }
+
+    private void basicsMessage(String openId, String name, String phone, String commodity, String receiving, String delivery, String plate, String grossWeight, String tareWeight, String moisture, String impurities, String bulkDensity, String mildew, String unitPrice, String amount, String money, String skinTime, String time, String serialNumber, String operator, Order orderUp) {
         orderUp.setOpenId(openId);
         orderUp.setName(name);
         orderUp.setPhone(phone);
@@ -252,23 +247,13 @@ public class TemplateServiceImpl extends ServiceImpl<MessageMapper, Message> imp
         orderUp.setTime(time);//过毛时间
         orderUp.setSerialNumber(serialNumber);//流水号
         orderUp.setOperator(operator);//操作员
-        orderUp.setOperationDate(operationDate);
-        int aUp = orderMapper.updateById(orderUp);
-        System.out.println(aUp);
-        if(aUp == 1){
-            //在进行查询发送
-            //orderMapper.selectByMap();
-            sendMessage(name, phone, commodity, receiving, delivery, plate, grossWeight, tareWeight,
-                    moisture, impurities, bulkDensity, mildew, unitPrice, amount, money, skinTime, time, serialNumber, operator,note,"0");
-        }
-        return null;
     }
 
     @Override
     public DataVo<List<Order>> getDateUserMessage(String openId, String date) {
 
         LambdaQueryWrapper<Order> lqwOrder = new LambdaQueryWrapper<>();
-        lqwOrder.eq(Order::getSkinTime,date).eq(Order::getOpenId,openId);
+        lqwOrder.likeRight(Order::getSkinTime,date).eq(Order::getOpenId,openId);
         List<Order> orders = orderMapper.selectList(lqwOrder);
         System.out.println(orders);
         DataVo dataVo = new DataVo("用户获取成功", 0,2, orders);
